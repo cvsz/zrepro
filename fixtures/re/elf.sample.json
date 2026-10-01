@@ -1,0 +1,7 @@
+{
+  "fixture_type": "elf",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic.elf", "format": "ELF64", "architecture": "x86_64"},
+  "expected_observations": ["route to static analysis", "record symbols and dynamic dependencies"]
+}
