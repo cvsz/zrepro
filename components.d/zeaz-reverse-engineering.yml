@@ -1,6 +1,6 @@
 name: ZEAZ Reverse Engineering
 repo: cvsz/zrepro
-description: Evidence-driven agents and skills for authorized binary, Apple/mobile, runtime and defensive detection analysis.
+description: Evidence-driven agents and skills for authorized binary, Apple/Samsung/mobile, runtime and defensive detection analysis.
 skills:
   - path: skills/zeaz-re-triage/
     catalog_dir: zeaz-re-triage
@@ -12,5 +12,7 @@ skills:
     catalog_dir: zeaz-re-mobile
   - path: skills/zeaz-re-apple/
     catalog_dir: zeaz-re-apple
+  - path: skills/zeaz-re-samsung/
+    catalog_dir: zeaz-re-samsung
   - path: skills/zeaz-re-detection/
     catalog_dir: zeaz-re-detection
