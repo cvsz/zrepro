@@ -38,7 +38,8 @@ Route a task to the smallest relevant reusable ZEAZ skill without preloading the
 - repository review/audit -> repository-mandated Scrutinize skill under `.agents/skills/` when present
 - reverse-engineering/artifact analysis -> `skills/zeaz-re-triage/SKILL.md` then the narrowest RE specialist skill
 - Mach-O / IPA / macOS app / iOS / iPadOS / Swift / Objective-C / Apple signing or entitlements -> `skills/zeaz-re-apple/SKILL.md`
-- Samsung Galaxy / One UI / Knox metadata / Samsung framework / Samsung APK or native library -> `skills/zeaz-re-samsung/SKILL.md`
+- Samsung Galaxy / One UI / Samsung framework / Samsung APK or native library -> `skills/zeaz-re-samsung/SKILL.md`
+- Knox SDK / KPE / Knox Manage / EMM / MDM / enterprise policy / attestation -> `skills/zeaz-re-knox/SKILL.md`
 - production/readiness assessment -> `docs/ai/playbooks/repository-production-readiness.md`
 - security review -> `docs/ai/playbooks/security-audit.md`
 - CI failure -> `docs/ai/playbooks/ci-failure-modes.md`
