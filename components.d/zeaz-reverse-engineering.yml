@@ -1,0 +1,14 @@
+name: ZEAZ Reverse Engineering
+repo: cvsz/zrepro
+description: Evidence-driven agents and skills for authorized binary, mobile, runtime and defensive detection analysis.
+skills:
+  - path: skills/zeaz-re-triage/
+    catalog_dir: zeaz-re-triage
+  - path: skills/zeaz-re-static/
+    catalog_dir: zeaz-re-static
+  - path: skills/zeaz-re-dynamic/
+    catalog_dir: zeaz-re-dynamic
+  - path: skills/zeaz-re-mobile/
+    catalog_dir: zeaz-re-mobile
+  - path: skills/zeaz-re-detection/
+    catalog_dir: zeaz-re-detection
