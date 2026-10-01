@@ -1,0 +1,7 @@
+{
+  "fixture_type": "memory",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic-memory.raw", "format": "metadata", "platform": "memory-forensics"},
+  "expected_observations": ["route to zeaz-re-memory", "protect secrets and personal data while correlating observations"]
+}
