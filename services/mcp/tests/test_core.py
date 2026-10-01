@@ -1,7 +1,7 @@
+import json
 from pathlib import Path
 
 from zrepro_mcp.core import ZReproCore
-
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -29,7 +29,6 @@ def test_rejects_bad_hash() -> None:
 
 def test_sample_report_validates() -> None:
     core = ZReproCore(ROOT)
-    import json
     report = json.loads((ROOT / "fixtures/re/reports/pe.report.json").read_text())
     result = core.validate_report(report)
     assert result["valid"] is True
