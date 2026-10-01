@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "Synthetic.app", "sha256": null, "type": "Mach-O", "platform": "macOS", "architecture": "arm64", "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate Apple evidence-report routing", "environment": "metadata-only CI fixture", "non_goals": ["code-sign bypass", "runtime execution"]},
+  "findings": [{"id": "APPLE-001", "summary": "Signing and entitlement metadata must remain separate from observed capability use.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/macho.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No Mach-O bytes or signing identity are present."],
+  "next_evidence_step": null
+}
