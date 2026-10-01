@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-firmware.bin", "sha256": null, "type": "metadata", "platform": "embedded", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate firmware routing and evidence discipline", "environment": "metadata-only CI fixture", "non_goals": ["device flashing", "secure-boot bypass"]},
+  "findings": [{"id": "FW-001", "summary": "Image content and observed device state must remain separate evidence classes.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/firmware.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No firmware bytes or physical device are present."],
+  "next_evidence_step": null
+}

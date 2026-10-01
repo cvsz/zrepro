@@ -1,0 +1,7 @@
+{
+  "fixture_type": "document",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic-document.pdf", "format": "PDF", "platform": "document"},
+  "expected_observations": ["route to zeaz-re-document", "treat embedded scripts and URLs as metadata until execution is evidenced"]
+}

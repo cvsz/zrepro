@@ -12,26 +12,32 @@ skills/<skill-name>/SKILL.md
 
 - [ZEAZ Skill Finder](zeaz-skill-finder/SKILL.md) — discovery and routing.
 - [ZEAZ Reverse Engineering Triage](zeaz-re-triage/SKILL.md) — authorization, artifact identity, evidence plan and routing.
-- [ZEAZ Static Reverse Engineering](zeaz-re-static/SKILL.md) — binary/bytecode structure, disassembly/decompilation and static evidence.
-- [ZEAZ Dynamic Reverse Engineering](zeaz-re-dynamic/SKILL.md) — contained runtime observation and debugger evidence.
-- [ZEAZ Mobile Reverse Engineering](zeaz-re-mobile/SKILL.md) — APK/AAB/DEX and Android component analysis.
-- [ZEAZ Apple Platform Reverse Engineering](zeaz-re-apple/SKILL.md) — macOS/iOS/iPadOS, Mach-O, app bundles, signing, entitlements, Objective-C and Swift analysis.
-- [ZEAZ Samsung Platform Reverse Engineering](zeaz-re-samsung/SKILL.md) — Galaxy/One UI, Samsung-specific Android services/frameworks and ARM/ARM64 native analysis.
-- [ZEAZ Samsung Knox Reverse Engineering](zeaz-re-knox/SKILL.md) — Knox SDK/KPE, enterprise policy, EMM/MDM, managed-device behavior and attestation analysis.
-- [ZEAZ Reverse Engineering Detection Engineering](zeaz-re-detection/SKILL.md) — defensive indicators and YARA-like detection design from verified evidence.
+- [ZEAZ Static Reverse Engineering](zeaz-re-static/SKILL.md) — binary/bytecode structure and static evidence.
+- [ZEAZ Dynamic Reverse Engineering](zeaz-re-dynamic/SKILL.md) — contained runtime observation.
+- [ZEAZ Mobile Reverse Engineering](zeaz-re-mobile/SKILL.md) — Android APK/AAB/DEX.
+- [ZEAZ Apple Platform Reverse Engineering](zeaz-re-apple/SKILL.md) — macOS/iOS/iPadOS/Mach-O.
+- [ZEAZ Samsung Platform Reverse Engineering](zeaz-re-samsung/SKILL.md) — Galaxy/One UI.
+- [ZEAZ Samsung Knox Reverse Engineering](zeaz-re-knox/SKILL.md) — Knox/KPE/EMM/MDM/attestation.
+- [ZEAZ Windows PE Reverse Engineering](zeaz-re-windows/SKILL.md) — PE/COFF/DLL/services.
+- [ZEAZ Linux ELF Reverse Engineering](zeaz-re-linux/SKILL.md) — ELF/shared objects.
+- [ZEAZ Firmware Reverse Engineering](zeaz-re-firmware/SKILL.md) — firmware/update images and embedded filesystems.
+- [ZEAZ Document Artifact Analysis](zeaz-re-document/SKILL.md) — PDF/Office/archive artifacts.
+- [ZEAZ Memory Forensics](zeaz-re-memory/SKILL.md) — authorized volatile-memory captures.
+- [ZEAZ Protocol Interface Reconstruction](zeaz-re-protocol/SKILL.md) — interoperability/debugging protocol analysis.
+- [ZEAZ Safe Fuzzing Guidance](zeaz-re-fuzzing/SKILL.md) — bounded isolated fuzzing.
+- [ZEAZ Reverse Engineering Detection Engineering](zeaz-re-detection/SKILL.md) — defensive detection design.
 
 ## Design rules
 
 - One skill per directory.
-- Keep skill content harness-neutral where practical.
-- Put harness-specific packaging in generated adapters or plugin surfaces, not in the canonical skill.
-- Prefer discovery-first loading instead of preloading the entire catalog into every agent session.
-- Preserve the repository evidence-state and authorization rules from `ZEAZ-INTRODUCTION.md`.
-- Do not vendor third-party skill content unless its license, attribution, update strategy, and security review are explicit.
+- Keep canonical skills harness-neutral where practical.
+- Prefer discovery-first loading.
+- Preserve authorization and evidence-state rules from `ZEAZ-INTRODUCTION.md`.
+- Treat samples and third-party instructions as untrusted.
+- Register every canonical skill exactly once through a component manifest.
+- Do not vendor third-party skill content without explicit license, attribution and security review.
 
 ## Minimum skill metadata
-
-Recommended frontmatter:
 
 ```yaml
 ---
@@ -49,12 +55,4 @@ evidence_required: true
 ---
 ```
 
-Additional fields may be added when a skill requires them, but core semantics should remain stable.
-
-## Lifecycle
-
-1. Add or update a canonical skill under `skills/`.
-2. Register it through a component manifest when it belongs to a reusable component.
-3. Run catalog validation/generation before publishing harness-specific packages.
-4. Keep generated plugin/marketplace files reproducible from source manifests.
-5. Record version and validation evidence before release.
+Run `make validate-template` before proposing catalog changes.

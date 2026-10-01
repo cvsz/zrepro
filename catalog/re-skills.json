@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "catalog": "ZEAZ Reverse Engineering",
+  "skills": [
+    {"name":"zeaz-skill-finder","version":"0.1.0","risk_level":"low","domain":"routing"},
+    {"name":"zeaz-re-triage","version":"0.1.0","risk_level":"medium","domain":"triage"},
+    {"name":"zeaz-re-static","version":"0.1.0","risk_level":"medium","domain":"static"},
+    {"name":"zeaz-re-dynamic","version":"0.1.0","risk_level":"high","domain":"dynamic"},
+    {"name":"zeaz-re-mobile","version":"0.1.0","risk_level":"medium","domain":"android"},
+    {"name":"zeaz-re-apple","version":"0.1.0","risk_level":"medium","domain":"apple"},
+    {"name":"zeaz-re-samsung","version":"0.1.0","risk_level":"medium","domain":"samsung"},
+    {"name":"zeaz-re-knox","version":"0.1.0","risk_level":"high","domain":"knox"},
+    {"name":"zeaz-re-windows","version":"0.1.0","risk_level":"medium","domain":"windows-pe"},
+    {"name":"zeaz-re-linux","version":"0.1.0","risk_level":"medium","domain":"linux-elf"},
+    {"name":"zeaz-re-firmware","version":"0.1.0","risk_level":"high","domain":"firmware"},
+    {"name":"zeaz-re-document","version":"0.1.0","risk_level":"medium","domain":"document"},
+    {"name":"zeaz-re-memory","version":"0.1.0","risk_level":"high","domain":"memory"},
+    {"name":"zeaz-re-protocol","version":"0.1.0","risk_level":"medium","domain":"protocol"},
+    {"name":"zeaz-re-fuzzing","version":"0.1.0","risk_level":"high","domain":"fuzzing"},
+    {"name":"zeaz-re-detection","version":"0.1.0","risk_level":"medium","domain":"detection"}
+  ]
+}

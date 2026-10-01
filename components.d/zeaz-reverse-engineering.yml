@@ -1,6 +1,6 @@
 name: ZEAZ Reverse Engineering
 repo: cvsz/zrepro
-description: Evidence-driven agents and skills for authorized binary, Apple/Samsung/Knox/mobile, runtime and defensive detection analysis.
+description: Evidence-driven agents and skills for authorized platform, binary, firmware, document, memory, protocol, fuzzing and defensive detection analysis.
 skills:
   - path: skills/zeaz-re-triage/
     catalog_dir: zeaz-re-triage
@@ -16,5 +16,19 @@ skills:
     catalog_dir: zeaz-re-samsung
   - path: skills/zeaz-re-knox/
     catalog_dir: zeaz-re-knox
+  - path: skills/zeaz-re-windows/
+    catalog_dir: zeaz-re-windows
+  - path: skills/zeaz-re-linux/
+    catalog_dir: zeaz-re-linux
+  - path: skills/zeaz-re-firmware/
+    catalog_dir: zeaz-re-firmware
+  - path: skills/zeaz-re-document/
+    catalog_dir: zeaz-re-document
+  - path: skills/zeaz-re-memory/
+    catalog_dir: zeaz-re-memory
+  - path: skills/zeaz-re-protocol/
+    catalog_dir: zeaz-re-protocol
+  - path: skills/zeaz-re-fuzzing/
+    catalog_dir: zeaz-re-fuzzing
   - path: skills/zeaz-re-detection/
     catalog_dir: zeaz-re-detection

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-fuzz-target", "sha256": null, "type": "harness-metadata", "platform": "test", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate safe fuzzing preconditions", "environment": "metadata-only CI fixture", "non_goals": ["production-target fuzzing", "weaponization"]},
+  "findings": [{"id": "FUZZ-001", "summary": "Fuzzing requires explicit authorization, isolation, limits and deterministic reproduction.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/fuzzing.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No executable target or crash input is present."],
+  "next_evidence_step": null
+}

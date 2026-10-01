@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-memory.raw", "sha256": null, "type": "metadata", "platform": "memory-forensics", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate memory-forensics evidence rules", "environment": "metadata-only CI fixture", "non_goals": ["credential extraction"]},
+  "findings": [{"id": "MEM-001", "summary": "Memory observations require provenance and corroboration, with secret minimization.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/memory.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No raw memory bytes are present."],
+  "next_evidence_step": null
+}
