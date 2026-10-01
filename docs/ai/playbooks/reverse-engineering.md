@@ -1,0 +1,17 @@
+# Reverse Engineering Playbook
+
+Use this playbook for authorized compatibility research, debugging, incident response, provenance analysis, malware analysis, or defensive detection work.
+
+## Route
+1. Orchestrator: [Reverse Engineering Orchestrator](../agents/reverse-engineering-orchestrator.md)
+2. Triage: [ZEAZ Reverse Engineering Triage](../../../skills/zeaz-re-triage/SKILL.md)
+3. Static: [ZEAZ Static Reverse Engineering](../../../skills/zeaz-re-static/SKILL.md)
+4. Dynamic, only when needed and contained: [ZEAZ Dynamic Reverse Engineering](../../../skills/zeaz-re-dynamic/SKILL.md)
+5. Android/mobile: [ZEAZ Mobile Reverse Engineering](../../../skills/zeaz-re-mobile/SKILL.md)
+6. Defensive detections: [ZEAZ Reverse Engineering Detection Engineering](../../../skills/zeaz-re-detection/SKILL.md)
+
+## Reference taxonomy
+The workflow was informed by the public taxonomy in `wtsxDev/reverse-engineering`: binary formats, disassemblers/static analysis, bytecode, dynamic analysis/debugging, document analysis, scripting, Android and YARA. This repository adopts the taxonomy concept, not third-party content.
+
+## Completion criteria
+A reverse-engineering task is not complete because a tool produced output. Completion requires artifact identity, reproducible evidence, stated uncertainty, and a direct answer to the scoped question.
