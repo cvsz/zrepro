@@ -1,12 +1,9 @@
-from __future__ import annotations
-
 import hashlib
 import json
 from pathlib import Path
 from typing import Any
 
 from jsonschema import Draft202012Validator
-
 
 ROUTES = {
     "pe": "zeaz-re-windows",
@@ -65,7 +62,9 @@ class ZReproCore:
     ) -> dict[str, Any]:
         artifact_type = artifact_type.lower().strip()
         route = ROUTES.get(artifact_type, "zeaz-re-triage")
-        if sha256 and (len(sha256) != 64 or any(c not in "0123456789abcdefABCDEF" for c in sha256)):
+        if sha256 and (
+            len(sha256) != 64 or any(c not in "0123456789abcdefABCDEF" for c in sha256)
+        ):
             raise ValueError("sha256 must be exactly 64 hexadecimal characters")
         return {
             "artifact": {
@@ -76,7 +75,10 @@ class ZReproCore:
             },
             "route": route,
             "evidence_state": "UNVERIFIED",
-            "next_step": "Use the routed skill and attach tool/version/method evidence before confirming findings.",
+            "next_step": (
+                "Use the routed skill and attach tool/version/method evidence "
+                "before confirming findings."
+            ),
         }
 
     def validate_report(self, report: dict[str, Any]) -> dict[str, Any]:
