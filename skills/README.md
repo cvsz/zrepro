@@ -15,6 +15,7 @@ skills/<skill-name>/SKILL.md
 - [ZEAZ Static Reverse Engineering](zeaz-re-static/SKILL.md) — binary/bytecode structure, disassembly/decompilation and static evidence.
 - [ZEAZ Dynamic Reverse Engineering](zeaz-re-dynamic/SKILL.md) — contained runtime observation and debugger evidence.
 - [ZEAZ Mobile Reverse Engineering](zeaz-re-mobile/SKILL.md) — APK/AAB/DEX and Android component analysis.
+- [ZEAZ Apple Platform Reverse Engineering](zeaz-re-apple/SKILL.md) — macOS/iOS/iPadOS, Mach-O, app bundles, signing, entitlements, Objective-C and Swift analysis.
 - [ZEAZ Reverse Engineering Detection Engineering](zeaz-re-detection/SKILL.md) — defensive indicators and YARA-like detection design from verified evidence.
 
 ## Design rules
