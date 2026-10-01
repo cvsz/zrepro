@@ -18,27 +18,26 @@ The format follows Keep a Changelog conventions; generated projects should adopt
 - GitHub administration automation with dry-run, explicit apply, and read-back verification.
 - Repository rollout guidance for applying the baseline safely to existing repositories.
 - Evidence-driven reverse-engineering orchestration and reusable specialist skills.
-- Artifact triage skill with authorization, hashing and evidence-state requirements.
-- Static binary/bytecode reverse-engineering skill.
-- Contained dynamic-analysis skill with explicit lab preconditions and stop conditions.
-- Android/mobile reverse-engineering skill.
-- Defensive detection-engineering skill.
-- Apple platform reverse-engineering skill, analyst and playbook for Mach-O, macOS/iOS/iPadOS bundles, code signing, entitlements, Objective-C and Swift.
-- Samsung platform reverse-engineering skill, analyst and playbook for Galaxy/One UI packages, Samsung frameworks/services and ARM/ARM64 native libraries.
-- Samsung Knox reverse-engineering skill, analyst and playbook for Knox SDK/KPE, EMM/MDM policy state and attestation-flow analysis.
-- Component-catalog and skill-finder routing for Apple, Samsung and Knox specialists.
+- Artifact triage, static, contained dynamic, Android/mobile, Apple, Samsung, Knox, and defensive-detection skills.
+- Apple, Samsung, and Knox specialist agents/playbooks.
+- Machine-readable reverse-engineering evidence-report schema.
+- Safe metadata-only synthetic fixture corpus for PE, ELF, Mach-O, APK, Samsung One UI, and Knox.
+- Sample evidence-report fixtures for the supported synthetic artifact classes.
+- Standard-library reverse-engineering catalog/fixture/report validator with unit-test and CI integration.
+- Reverse-engineering tool capability/version-discipline matrix.
+- SPDX SBOM and source-provenance note for the repository-local validator.
 
 ### Changed
 
 - Reorganized reusable AI documentation into `agents/`, `guides/`, `playbooks/`, and `prompts/`.
-- Expanded skill catalog into a reverse-engineering capability graph rather than a flat resource list.
+- Expanded the skill catalog into a validated reverse-engineering capability graph.
 - Added static-first routing for untrusted artifacts.
 - Added platform-specific evidence requirements for OS/device/model/build/management context.
 - Added Knox policy-state distinction: declared, assigned, effective and observed.
+- Updated `make validate-template` and CI to validate the RE catalog, fixtures, reports and supply-chain evidence.
+- Corrected the engineering component manifest repository identity from `cvsz/ztemplate` to `cvsz/zrepro`.
 - Pinned baseline first-party GitHub Actions to immutable commit SHAs.
 - Expanded CODEOWNERS coverage for repository policy, AI, skills, components, and plugin manifests.
-- Clarified that release-note configuration is not an artifact-publishing workflow.
-- Documented branch/security administration as an explicit evidence gate rather than a documentation-only checklist.
 
 ### Fixed
 
