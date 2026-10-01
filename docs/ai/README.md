@@ -7,6 +7,12 @@
 - [CLAUDE.md](../../CLAUDE.md)
 - [OPENCODE.md](../../OPENCODE.md)
 
+## Agents
+
+- [Reverse Engineering Orchestrator](agents/reverse-engineering-orchestrator.md)
+- [Static Binary Analyst](agents/static-binary-analyst.md)
+- [Runtime Behavior Analyst](agents/runtime-behavior-analyst.md)
+
 ## Guides
 
 - [ECC integration](guides/ecc-integration.md)
@@ -18,6 +24,7 @@
 
 ## Playbooks
 
+- [Reverse Engineering](playbooks/reverse-engineering.md)
 - [Repository Production Readiness](playbooks/repository-production-readiness.md)
 - [Security Audit](playbooks/security-audit.md)
 - [Incident Response](playbooks/incident-response.md)
