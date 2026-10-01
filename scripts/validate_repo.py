@@ -15,8 +15,9 @@ REQUIRED_PATHS = (
     "ZEAZ-INTRODUCTION.md", "CONTRIBUTING.md", "SECURITY.md",
     "CODE_OF_CONDUCT.md", "CHANGELOG.md", "ROADMAP.md",
     "IMPLEMENTATION-CHECKLIST.md", ".github/PULL_REQUEST_TEMPLATE.md",
-    ".github/dependabot.yml", "docs/ai/README.md", "docs/ai/agents",
-    "docs/ai/guides", "docs/ai/playbooks", "docs/ai/prompts",
+    ".github/dependabot.yml", ".github/workflows/scorecard.yml",
+    "docs/ai/README.md", "docs/ai/agents", "docs/ai/guides",
+    "docs/ai/playbooks", "docs/ai/prompts", "docs/security/openssf-scorecard.md",
     "skills/zeaz-skill-finder/SKILL.md", "skills/zeaz-re-triage/SKILL.md",
     "skills/zeaz-re-static/SKILL.md", "skills/zeaz-re-dynamic/SKILL.md",
     "skills/zeaz-re-mobile/SKILL.md", "skills/zeaz-re-apple/SKILL.md",
@@ -34,6 +35,9 @@ REQUIRED_PATHS = (
     "docs/ai/guides/github-repository-admin.md",
     "docs/ai/guides/tool-capability-matrix.md",
     "docs/ai/guides/evidence-report-schema.md",
+    "starter-packs/python/README.md", "starter-packs/node/README.md",
+    "starter-packs/go/README.md", "starter-packs/rust/README.md",
+    "starter-packs/kubernetes-helm/README.md",
 )
 
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
