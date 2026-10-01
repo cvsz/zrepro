@@ -1,0 +1,7 @@
+{
+  "fixture_type": "macho",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "Synthetic.app", "format": "Mach-O", "architecture": "arm64", "platform": "macOS"},
+  "expected_observations": ["route to zeaz-re-apple", "separate signing and entitlement evidence from runtime use"]
+}
