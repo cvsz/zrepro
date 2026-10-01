@@ -18,6 +18,7 @@ REQUIRED_PATHS = (
     ".github/dependabot.yml", ".github/workflows/scorecard.yml",
     "docs/ai/README.md", "docs/ai/agents", "docs/ai/guides",
     "docs/ai/playbooks", "docs/ai/prompts", "docs/security/openssf-scorecard.md",
+    "docs/architecture/mcp-server.md",
     "skills/zeaz-skill-finder/SKILL.md", "skills/zeaz-re-triage/SKILL.md",
     "skills/zeaz-re-static/SKILL.md", "skills/zeaz-re-dynamic/SKILL.md",
     "skills/zeaz-re-mobile/SKILL.md", "skills/zeaz-re-apple/SKILL.md",
@@ -38,6 +39,10 @@ REQUIRED_PATHS = (
     "starter-packs/python/README.md", "starter-packs/node/README.md",
     "starter-packs/go/README.md", "starter-packs/rust/README.md",
     "starter-packs/kubernetes-helm/README.md",
+    "services/mcp/pyproject.toml", "services/mcp/Dockerfile",
+    "services/mcp/.env.example", "services/mcp/src/zrepro_mcp/server.py",
+    "services/mcp/src/zrepro_mcp/config.py", "services/mcp/src/zrepro_mcp/auth.py",
+    "services/mcp/src/zrepro_mcp/core.py", "services/mcp/tests",
 )
 
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
