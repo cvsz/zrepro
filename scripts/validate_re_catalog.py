@@ -12,7 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = ROOT / "skills"
 COMPONENTS_DIR = ROOT / "components.d"
 FIXTURES_DIR = ROOT / "fixtures" / "re"
+REPORTS_DIR = FIXTURES_DIR / "reports"
 SCHEMA_PATH = ROOT / "schemas" / "re-evidence-report.schema.json"
+SBOM_PATH = ROOT / "sbom" / "re-validator.spdx.json"
+PROVENANCE_PATH = ROOT / "provenance" / "re-validator.md"
 
 REQUIRED_METADATA = {
     "name",
@@ -28,7 +31,23 @@ REQUIRED_METADATA = {
     "evidence_required",
 }
 ALLOWED_RISK = {"low", "medium", "high"}
+ALLOWED_EVIDENCE_STATES = {
+    "VERIFIED",
+    "PARTIALLY VERIFIED",
+    "UNVERIFIED",
+    "BLOCKED",
+    "NOT APPLICABLE",
+}
+ALLOWED_CONFIDENCE = {"confirmed", "probable", "hypothesis"}
 REQUIRED_FIXTURE_TYPES = {"pe", "elf", "macho", "apk", "samsung-oneui", "knox-policy"}
+REQUIRED_REPORTS = {
+    "pe.report.json",
+    "elf.report.json",
+    "macho.report.json",
+    "apk.report.json",
+    "samsung-oneui.report.json",
+    "knox-policy.report.json",
+}
 COMPONENT_PATH_RE = re.compile(r"^\s*-\s+path:\s+(skills/[^/]+/)\s*$")
 
 
@@ -133,7 +152,6 @@ def validate_component_registration() -> list[str]:
 
 
 def validate_schema() -> list[str]:
-    errors: list[str] = []
     if not SCHEMA_PATH.exists():
         return [f"missing evidence schema: {SCHEMA_PATH.relative_to(ROOT)}"]
     try:
@@ -141,6 +159,7 @@ def validate_schema() -> list[str]:
     except json.JSONDecodeError as exc:
         return [f"{SCHEMA_PATH.relative_to(ROOT)}: invalid JSON: {exc}"]
 
+    errors: list[str] = []
     required = set(schema.get("required", []))
     expected = {"schema_version", "artifact", "scope", "findings", "evidence_state"}
     missing = expected - required
@@ -178,19 +197,87 @@ def validate_fixtures() -> list[str]:
     return errors
 
 
+def validate_reports() -> list[str]:
+    errors: list[str] = []
+    if not REPORTS_DIR.exists():
+        return [f"missing report fixture directory: {REPORTS_DIR.relative_to(ROOT)}"]
+
+    existing = {p.name for p in REPORTS_DIR.glob("*.json")}
+    missing_reports = REQUIRED_REPORTS - existing
+    if missing_reports:
+        errors.append(f"missing required report fixtures: {', '.join(sorted(missing_reports))}")
+
+    required = {"schema_version", "artifact", "scope", "findings", "evidence_state"}
+    for path in sorted(REPORTS_DIR.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"{path.relative_to(ROOT)}: invalid JSON: {exc}")
+            continue
+
+        missing = required - set(data)
+        if missing:
+            errors.append(f"{path.relative_to(ROOT)}: missing fields: {', '.join(sorted(missing))}")
+            continue
+        if data.get("schema_version") != "1.0":
+            errors.append(f"{path.relative_to(ROOT)}: schema_version must be 1.0")
+        if data.get("evidence_state") not in ALLOWED_EVIDENCE_STATES:
+            errors.append(f"{path.relative_to(ROOT)}: invalid evidence_state")
+
+        findings = data.get("findings")
+        if not isinstance(findings, list):
+            errors.append(f"{path.relative_to(ROOT)}: findings must be a list")
+            continue
+        for finding in findings:
+            if finding.get("confidence") not in ALLOWED_CONFIDENCE:
+                errors.append(f"{path.relative_to(ROOT)}: invalid finding confidence")
+            evidence = finding.get("evidence")
+            if not isinstance(evidence, list) or not evidence:
+                errors.append(f"{path.relative_to(ROOT)}: each finding requires evidence")
+                continue
+            for item in evidence:
+                source = item.get("source")
+                if isinstance(source, str) and source.startswith("fixtures/re/"):
+                    if not (ROOT / source).exists():
+                        errors.append(f"{path.relative_to(ROOT)}: missing evidence source: {source}")
+
+    return errors
+
+
+def validate_supply_chain_evidence() -> list[str]:
+    errors: list[str] = []
+    if not SBOM_PATH.exists():
+        errors.append(f"missing validator SBOM: {SBOM_PATH.relative_to(ROOT)}")
+    else:
+        try:
+            sbom = json.loads(SBOM_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"{SBOM_PATH.relative_to(ROOT)}: invalid JSON: {exc}")
+        else:
+            if sbom.get("spdxVersion") != "SPDX-2.3":
+                errors.append(f"{SBOM_PATH.relative_to(ROOT)}: expected SPDX-2.3")
+            if not sbom.get("packages"):
+                errors.append(f"{SBOM_PATH.relative_to(ROOT)}: packages must be non-empty")
+    if not PROVENANCE_PATH.exists():
+        errors.append(f"missing validator provenance: {PROVENANCE_PATH.relative_to(ROOT)}")
+    return errors
+
+
 def main() -> int:
     errors = (
         validate_skills()
         + validate_component_registration()
         + validate_schema()
         + validate_fixtures()
+        + validate_reports()
+        + validate_supply_chain_evidence()
     )
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
 
-    print("Reverse-engineering skill catalog, evidence schema, and synthetic fixtures are valid.")
+    print("Reverse-engineering catalog, evidence schema, fixtures, reports, and supply-chain evidence are valid.")
     return 0
 
 
