@@ -64,11 +64,11 @@ def build_changes(root: Path, name: str, owner: str, codeowner: str, description
         raise ValueError("Unexpected CODEOWNERS template; manual review required")
     changes[".github/CODEOWNERS"] = codeowners.replace("@cvsz", "@" + codeowner)
     issue = safe_file(root, ".github/ISSUE_TEMPLATE/config.yml").read_text(encoding="utf-8")
-    old_url = "https://github.com/cvsz/ztemplate/security"
+    old_url = "https://github.com/cvsz/zrepro/security/advisories/new"
     if issue.count(old_url) != 1:
         raise ValueError("Unexpected issue security URL; manual review required")
     changes[".github/ISSUE_TEMPLATE/config.yml"] = issue.replace(
-        old_url, f"https://github.com/{owner}/{name}/security"
+        old_url, f"https://github.com/{owner}/{name}/security/advisories/new"
     )
     for target in FILES:
         safe_file(root, target)

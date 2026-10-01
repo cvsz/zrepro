@@ -5,6 +5,11 @@ All notable changes to this template/framework are documented here.
 ## [Unreleased]
 
 ### Added
+- Production-oriented MCP gateway under `services/mcp` using Streamable HTTP.
+- Read-only MCP tools for service status, capability discovery, artifact metadata routing, canonical skill retrieval and evidence-report validation.
+- Fail-closed local/remote configuration: unauthenticated mode is loopback-only; remote mode requires OAuth resource-server configuration and RFC 7662 introspection.
+- Required MCP tests in the protected `repository-baseline` CI context.
+- Non-root, digest-pinned MCP container definition and deployment contract.
 - ZEAZ cross-agent engineering execution framework and validated reverse-engineering skill catalog.
 - Platform/artifact specialists for Windows PE, Linux ELF, Android, Apple, Samsung, Knox, firmware, documents, memory, protocols and safe fuzzing.
 - Machine-readable RE evidence schema, catalog index, synthetic fixtures/reports and benchmark/reference scenarios.
@@ -29,6 +34,9 @@ All notable changes to this template/framework are documented here.
 - Clarified that imports, strings, permissions, entitlements and decompiler output do not alone prove runtime behavior.
 
 ### Security
+- MCP remote mode validates bearer tokens through external RFC 7662 introspection, required scopes and resource binding.
+- MCP local mode refuses non-loopback binding.
+- MCP tool surface intentionally excludes arbitrary command execution, credential extraction, bypass operations, uncontrolled fuzzing and dynamic execution.
 - Added fail-closed repository administration verification.
 - Added reverse-engineering containment rules and synthetic-only public fixtures.
 - Added advisory OpenSSF Scorecard scanning with least-privilege workflow permissions and non-publishing configuration.

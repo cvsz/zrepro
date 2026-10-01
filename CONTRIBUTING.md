@@ -43,4 +43,4 @@ make validate-template
 
 Do not merge from an older green commit after the PR head changes. Required checks must pass for the current exact head.
 
-Repository-administration changes require an authenticated admin identity and read-back verification with `scripts/github_admin.py --verify`; configuration intent alone is not evidence.
+Repository-administration changes require an authenticated admin identity and read-back verification with `scripts/github_admin.py --repo OWNER/REPO --verify`; configuration intent alone is not evidence.
