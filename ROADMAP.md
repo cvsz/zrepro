@@ -1,6 +1,6 @@
 # Roadmap
 
-This template stays language-agnostic while providing production-grade **repository foundations**.
+zRepro remains a reusable engineering foundation while adding evidence-driven reverse-engineering capabilities.
 
 ## Foundation
 
@@ -10,8 +10,6 @@ This template stays language-agnostic while providing production-grade **reposit
 - [x] CI and security workflow baseline
 - [x] Dependabot configuration
 - [x] Release guidance and release-note configuration
-- [x] Docker and task-runner placeholders
-- [x] Architecture/development/release documentation structure
 - [x] Immutable SHA pinning for baseline GitHub Actions
 - [x] Repository structure and local Markdown-link validation
 - [x] GitHub administration apply/verify automation
@@ -21,7 +19,59 @@ This template stays language-agnostic while providing production-grade **reposit
 - [x] Discovery-first skills/component/plugin catalog scaffold
 - [x] Safe rollout guidance for existing repositories
 
-## Reusable first-project startup
+## Reverse-engineering framework
+
+- [x] Artifact triage and evidence contract
+- [x] Static reverse-engineering skill
+- [x] Dynamic analysis skill with containment requirements
+- [x] Android/mobile analysis skill
+- [x] Defensive detection-engineering skill
+- [x] Reverse Engineering Orchestrator agent
+- [x] Static Binary Analyst agent
+- [x] Runtime Behavior Analyst agent
+- [x] Unified reverse-engineering playbook and routing
+
+## Platform specialization
+
+### Apple
+- [x] macOS / iOS / iPadOS specialist skill
+- [x] Mach-O / dylib / bundle analysis workflow
+- [x] Objective-C and Swift metadata guidance
+- [x] code-signing / entitlement / provisioning evidence rules
+- [x] Apple Platform Analyst agent
+- [x] Apple platform playbook
+
+### Samsung
+- [x] Galaxy / One UI specialist skill
+- [x] Samsung framework/service differentiation
+- [x] ARM/ARM64 native library workflow
+- [x] device/build-aware evidence requirements
+- [x] Samsung Platform Analyst agent
+- [x] Samsung platform playbook
+
+### Knox
+- [x] Knox SDK / KPE specialist skill
+- [x] Knox Manage / EMM / MDM routing
+- [x] declared / assigned / effective / observed policy model
+- [x] attestation analysis workflow
+- [x] Knox Platform Analyst agent
+- [x] Knox playbook
+
+## Validation and automation next
+
+- [ ] Add machine-readable schema validation for all canonical skill frontmatter
+- [ ] Add CI test ensuring every skill is registered exactly once in component/catalog indexes
+- [ ] Add CI test ensuring all agent/playbook links resolve
+- [ ] Add reference fixture corpus containing only safe synthetic/non-malicious artifacts
+- [ ] Add deterministic evidence-report schema
+- [ ] Add sample report fixtures for PE/ELF/Mach-O/APK
+- [ ] Add Apple bundle/Mach-O synthetic fixture validation
+- [ ] Add Samsung APK/One UI integration fixture validation
+- [ ] Add Knox policy-state synthetic fixture validation
+- [ ] Add tool-capability matrix with version compatibility
+- [ ] Add SBOM/provenance for executable helper tooling if helper code is introduced
+
+## Reusable project startup
 
 - [x] Identity bootstrap with dry-run, explicit apply, and idempotence
 - [x] Safe ownership/security issue-link replacement
@@ -33,19 +83,19 @@ This template stays language-agnostic while providing production-grade **reposit
 
 ## Future optional modules
 
-- [ ] Language-specific starter packs
-- [ ] Infrastructure-as-code starter packs
-- [ ] Kubernetes and Helm starter packs
-- [ ] SBOM/provenance workflows
-- [ ] Release signing and artifact attestation
+- [ ] Windows/PE specialist
+- [ ] Linux/ELF specialist
+- [ ] embedded/firmware specialist
+- [ ] document/PDF/Office analysis specialist
+- [ ] memory-forensics specialist
+- [ ] protocol/interface reconstruction specialist
+- [ ] safe fuzzing harness guidance
+- [ ] language-specific starter packs
+- [ ] Kubernetes/Helm starter packs
+- [ ] release signing and artifact attestation
 - [ ] OpenSSF Scorecard workflow
-- [ ] Container vulnerability scanning
-- [ ] Documentation site starter
-- [ ] Monorepo profile
-- [ ] Service/API profile
-- [ ] Web application profile
-- [ ] Library/SDK profile
-- [ ] Machine-readable skill catalog/version index when real catalog scale justifies it
-- [ ] Benchmark/reference-set framework when there are real scenarios to measure
+- [ ] container vulnerability scanning
+- [ ] machine-readable catalog/version index at scale
+- [ ] benchmark/reference-set framework
 
-Generated repositories should adopt only modules appropriate to their stack, threat model, operating environment, and compliance needs.
+Generated repositories should adopt only modules appropriate to their scope, authorization, threat model, operating environment and compliance requirements.
