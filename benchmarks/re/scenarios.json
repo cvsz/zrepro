@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "scenarios": [
+    {"id":"pe-routing","fixture":"fixtures/re/pe.sample.json","expected_skill":"zeaz-re-windows","required_concept":"imports are capability surface","forbidden_inference":"import implies invocation"},
+    {"id":"elf-routing","fixture":"fixtures/re/elf.sample.json","expected_skill":"zeaz-re-linux","required_concept":"dependency and ABI context","forbidden_inference":"linked library implies behavior"},
+    {"id":"apple-routing","fixture":"fixtures/re/macho.sample.json","expected_skill":"zeaz-re-apple","required_concept":"signing and entitlement separation","forbidden_inference":"entitlement implies runtime use"},
+    {"id":"android-routing","fixture":"fixtures/re/apk.sample.json","expected_skill":"zeaz-re-mobile","required_concept":"manifest metadata","forbidden_inference":"permission implies invocation"},
+    {"id":"samsung-routing","fixture":"fixtures/re/samsung-oneui.sample.json","expected_skill":"zeaz-re-samsung","required_concept":"device build context","forbidden_inference":"single device observation is universal"},
+    {"id":"knox-routing","fixture":"fixtures/re/knox-policy.sample.json","expected_skill":"zeaz-re-knox","required_concept":"declared assigned effective observed","forbidden_inference":"declared policy implies enforcement"},
+    {"id":"firmware-routing","fixture":"fixtures/re/firmware.sample.json","expected_skill":"zeaz-re-firmware","required_concept":"image versus runtime state","forbidden_inference":"embedded config is active state"},
+    {"id":"document-routing","fixture":"fixtures/re/document.sample.json","expected_skill":"zeaz-re-document","required_concept":"static extraction first","forbidden_inference":"embedded script executed"},
+    {"id":"memory-routing","fixture":"fixtures/re/memory.sample.json","expected_skill":"zeaz-re-memory","required_concept":"provenance and corroboration","forbidden_inference":"memory residue proves attribution"},
+    {"id":"protocol-routing","fixture":"fixtures/re/protocol.sample.json","expected_skill":"zeaz-re-protocol","required_concept":"observed versus inferred semantics","forbidden_inference":"one capture defines all versions"},
+    {"id":"fuzzing-routing","fixture":"fixtures/re/fuzzing.sample.json","expected_skill":"zeaz-re-fuzzing","required_concept":"authorization isolation limits","forbidden_inference":"crash equals exploitable vulnerability"}
+  ]
+}
