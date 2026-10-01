@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-knox-policy", "sha256": null, "type": "metadata", "platform": "Samsung Knox", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate Knox policy-state evidence semantics", "environment": "metadata-only CI fixture", "non_goals": ["enrollment bypass", "attestation bypass"]},
+  "findings": [{"id": "KNOX-001", "summary": "Declared, assigned, effective and observed policy states remain distinct.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/knox-policy.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No managed device, tenant, or enterprise credentials are present."],
+  "next_evidence_step": null
+}
