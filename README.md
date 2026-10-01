@@ -18,6 +18,17 @@ This repository is a **template and analysis framework**, not a deployable appli
 - Python, Node.js/TypeScript, Go and Rust adoption starter packs
 - Kubernetes/Helm adoption starter pack
 
+### AI / MCP service
+- production-oriented Streamable HTTP MCP gateway under `services/mcp`
+- read-only tools for capability discovery, artifact routing, skill retrieval and evidence validation
+- loopback-only local mode
+- OAuth 2.1 resource-server mode with RFC 7662 token introspection for remote deployment
+- required-scope and resource/audience validation
+- non-root digest-pinned container definition
+- MCP tests executed inside the protected `repository-baseline` CI context
+
+See the [MCP architecture and deployment contract](docs/architecture/mcp-server.md).
+
 ### Reverse-engineering layer
 - artifact triage and cryptographic identity
 - static and contained dynamic analysis
@@ -111,6 +122,18 @@ Material findings should identify artifact hash, tool/version, evidence source, 
 zRepro includes an advisory Scorecard workflow. Results are not published to the Scorecard service and SARIF is uploaded to GitHub Code Scanning.
 
 See [OpenSSF Scorecard configuration](docs/security/openssf-scorecard.md). The upstream v2.4.4 action currently references its runtime container using a mutable tag, so the action commit pin does not independently digest-pin the runtime image.
+
+## MCP quick start
+
+```bash
+cd services/mcp
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -e '.[dev]'
+ZREPRO_ROOT=../.. zrepro-mcp
+```
+
+Local mode serves Streamable HTTP on `http://127.0.0.1:8787/mcp`. Remote deployment must use the documented OAuth/introspection configuration; the service refuses unauthenticated public binding.
 
 ## Authorization and safety boundaries
 
