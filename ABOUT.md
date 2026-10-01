@@ -1,40 +1,73 @@
-# About cvsz
+# About zRepro
 
-`cvsz` is a builder focused on AI-first software, developer platforms, automation, infrastructure, and production-oriented systems.
+zRepro is a reusable engineering and reverse-engineering foundation maintained under the `cvsz` namespace.
 
-## Focus areas
+## Focus
 
-- AI coding tools and autonomous/agentic systems
-- AI application platforms and model/API integrations
-- developer platforms, APIs, SDKs, and internal tooling
-- platform engineering, infrastructure automation, CI/CD, and DevOps
-- security-aware architecture and repository hardening
-- workflow automation, bots, social, and commerce integrations
-- payment, wallet, ledger, and financial-system architecture
-- media, streaming, multimodal, speech, image, OCR, and search systems
-- gaming and interactive application infrastructure
-- OpenAPI tooling and service integration
+- secure repository foundations
+- AI/agent execution contracts
+- evidence-driven engineering
+- static and dynamic reverse engineering
+- binary and bytecode analysis
+- Android/mobile analysis
+- Apple platform analysis
+- Samsung Galaxy / One UI analysis
+- Samsung Knox enterprise integration analysis
+- defensive detection engineering
+- reproducible validation and CI/security governance
 
 ## Engineering philosophy
 
-Projects should aim to be:
+zRepro is designed around:
+- explicit authorization
+- secure-by-default operation
+- least privilege
+- static-first analysis
+- containment for untrusted runtime execution
+- reproducible tooling
+- evidence-backed claims
+- modular reusable skills
+- testable and reviewable change sets
+- explicit uncertainty
+- separation of implementation, verification, deployment and production readiness
 
-- secure by default
-- automation-first
-- modular and reusable
-- easy to operate
-- observable
-- testable
-- documented
-- evidence-driven
-- friendly to incremental improvement
+Security/quality failures should be fixed rather than bypassed.
 
-Security/quality failures should be fixed rather than bypassed. CI, infrastructure, documentation, recovery, repository controls, and operational readiness are treated as part of product engineering.
+## Reverse-engineering philosophy
 
-## ztemplate direction
+The framework converts reverse-engineering knowledge into reusable agent workflows instead of treating a tool list as a methodology.
 
-The template is intended to give new repositories disciplined foundations from the first commit:
+For material findings, preserve:
+- artifact identity/hash;
+- tool/version;
+- analysis method;
+- evidence location;
+- confidence;
+- environment/platform context;
+- unresolved assumptions.
 
+Capability metadata does not equal runtime behavior. Examples include imports, strings, permissions, entitlements, SDK references and decompiler output.
+
+## Platform scope
+
+Current specialist layers:
+- generic native/static analysis
+- dynamic runtime analysis
+- Android/mobile
+- Apple macOS/iOS/iPadOS
+- Samsung Galaxy / One UI
+- Samsung Knox / KPE / EMM / MDM / attestation
+- defensive detection engineering
+
+## Safety boundaries
+
+The project does not grant authorization to bypass account, device-ownership, DRM, enrollment, enterprise policy, attestation, Verified Boot, or similar protections.
+
+Dynamic analysis must use an authorized contained environment with test-only data and credentials.
+
+## Template direction
+
+zRepro still includes the reusable repository/template foundation:
 - governance and ownership
 - security policy
 - protected change flow
@@ -45,15 +78,15 @@ The template is intended to give new repositories disciplined foundations from t
 - AI-agent operating contracts
 - evidence-state semantics
 - repository administration verification
-- safe rollout guidance for existing projects
+- safe rollout guidance
 
-The template itself does not claim that generated applications are production ready. Application readiness remains evidence-based and stack/environment specific.
+The framework itself does not make a generated system production ready. Readiness remains evidence-based and environment-specific.
 
 ## GitHub
 
-- Handle: `cvsz`
 - Repository namespace: `github.com/cvsz`
+- Project: `cvsz/zrepro`
 
 ---
 
-This profile intentionally contains public-safe technical/project information only. Credentials, private account data, personal secrets, and sensitive identity information must not be added to a public repository template.
+This document intentionally contains public-safe technical/project information only. Credentials, private account data, personal secrets, enterprise keys, sensitive device data and private samples must not be added to the public repository.
