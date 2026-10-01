@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-samsung.apk", "sha256": null, "type": "APK", "platform": "Samsung One UI", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate Samsung device-context evidence rules", "environment": "metadata-only CI fixture", "non_goals": ["device runtime claims"]},
+  "findings": [{"id": "SAMSUNG-001", "summary": "Device-specific behavior requires model and One UI build context.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/samsung-oneui.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No physical device or firmware image is present."],
+  "next_evidence_step": null
+}
