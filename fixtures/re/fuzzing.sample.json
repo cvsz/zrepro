@@ -1,0 +1,7 @@
+{
+  "fixture_type": "fuzzing",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic-fuzz-target", "format": "harness-metadata", "platform": "test"},
+  "expected_observations": ["route to zeaz-re-fuzzing", "require authorization isolation resource limits and deterministic crash reproduction"]
+}
