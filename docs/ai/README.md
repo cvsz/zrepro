@@ -14,6 +14,7 @@
 - [Runtime Behavior Analyst](agents/runtime-behavior-analyst.md)
 - [Apple Platform Reverse Engineering Analyst](agents/apple-platform-analyst.md)
 - [Samsung Platform Reverse Engineering Analyst](agents/samsung-platform-analyst.md)
+- [Samsung Knox Platform Analyst](agents/knox-platform-analyst.md)
 
 ## Guides
 
@@ -29,6 +30,7 @@
 - [Reverse Engineering](playbooks/reverse-engineering.md)
 - [Apple Platform Reverse Engineering](playbooks/apple-reverse-engineering.md)
 - [Samsung Platform Reverse Engineering](playbooks/samsung-reverse-engineering.md)
+- [Samsung Knox Reverse Engineering](playbooks/knox-reverse-engineering.md)
 - [Repository Production Readiness](playbooks/repository-production-readiness.md)
 - [Security Audit](playbooks/security-audit.md)
 - [Incident Response](playbooks/incident-response.md)
