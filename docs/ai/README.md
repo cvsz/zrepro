@@ -23,6 +23,9 @@
 - [Skill catalog architecture](guides/skill-catalog-architecture.md)
 - [Cross-harness compatibility](guides/harness-compatibility.md)
 - [Cost and token budget](guides/cost-token-budget.md)
+- [Reverse-engineering tool capability matrix](guides/tool-capability-matrix.md)
+- [Reverse-engineering evidence report schema](guides/evidence-report-schema.md)
+- [Reverse-engineering validator supply-chain note](guides/re-validator-supply-chain.md)
 - [Repository rollout](../repository-rollout.md)
 
 ## Playbooks
