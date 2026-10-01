@@ -2,6 +2,7 @@
   "schema_version": "1.0",
   "catalog": "ZEAZ Reverse Engineering",
   "skills": [
+    {"name":"zeaz-skill-finder","version":"0.1.0","risk_level":"low","domain":"routing"},
     {"name":"zeaz-re-triage","version":"0.1.0","risk_level":"medium","domain":"triage"},
     {"name":"zeaz-re-static","version":"0.1.0","risk_level":"medium","domain":"static"},
     {"name":"zeaz-re-dynamic","version":"0.1.0","risk_level":"high","domain":"dynamic"},
