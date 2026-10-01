@@ -6,29 +6,47 @@ Security is part of the default delivery baseline for repositories created from 
 
 Do not disclose exploitable vulnerabilities in public issues, pull requests, discussions, commit messages, logs, or generated evidence bundles.
 
-Use GitHub private vulnerability reporting/security advisories when enabled, or the repository's documented private security contact.
+For **cvsz/zrepro**, use GitHub private vulnerability reporting:
 
-Include affected versions/commits, reproduction details, impact, prerequisites, and suggested remediation when available.
+https://github.com/cvsz/zrepro/security/advisories/new
+
+If a generated repository enables a different private reporting channel, replace the link above with that repository's real security contact or advisory URL before release.
+
+Please include:
+- affected versions or commits;
+- reproduction details;
+- impact and prerequisites;
+- relevant logs/evidence with secrets removed;
+- suggested remediation when available.
+
+## Response and disclosure timeline
+
+For reports concerning this template repository:
+- target initial acknowledgement: within 3 business days;
+- target status update cadence: at least once every 7 days while actively investigating;
+- remediation timing depends on severity, exploitability, and release risk;
+- public disclosure should be coordinated after a fix or mitigation is available unless earlier disclosure is required by law or overriding safety considerations.
+
+These are response targets, not a guarantee for generated downstream projects. Each generated project must publish its own support and disclosure policy before production use.
 
 ## Supported versions
 
-Each generated project must replace this section with its real support policy before its first production release.
+This repository is a reusable template/framework. The default branch receives security maintenance. Generated projects must replace this section with their real supported-version policy before their first production release.
 
 ## Repository security baseline
 
 Generated repositories should verify, not merely document:
-
-- protected default branch
-- pull-request review before merge
-- required status checks
-- CODEOWNERS review where appropriate
-- conversation resolution
-- blocked force pushes/deletion
-- Dependabot vulnerability alerts/security updates
-- private vulnerability reporting
-- secret scanning/push protection where available
-- least-privilege Actions permissions
-- Actions cannot approve pull requests unless explicitly justified
+- protected default branch;
+- pull-request review before merge;
+- required status checks;
+- CODEOWNERS review where appropriate;
+- conversation resolution;
+- blocked force pushes/deletion;
+- Dependabot vulnerability alerts/security updates;
+- private vulnerability reporting;
+- secret scanning/push protection where available;
+- least-privilege Actions permissions;
+- Actions cannot approve pull requests unless explicitly justified.
 
 The helper `scripts/github_admin.py` can configure and verify the baseline when run with a GitHub identity that has Administration permission.
 
