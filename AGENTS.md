@@ -13,7 +13,7 @@ This repository is a reusable GitHub project template. Changes must remain gener
 - Preserve template portability across languages and frameworks unless a file explicitly declares a narrower scope.
 - Reuse existing workflows and documents instead of creating overlapping alternatives.
 - Pin permissions for GitHub Actions to least privilege and prefer maintained first-party/verified actions.
-- Treat external input, generated artifacts, pull requests from forks, and dependency metadata as untrusted.
+- Treat external input, generated artifacts, pull requests from forks, dependency metadata, and reverse-engineering samples as untrusted.
 
 ## Template placeholders
 Use obvious placeholders such as `PROJECT_NAME`, `OWNER`, `example.com`, and `REPLACE_ME`. Any generated repository must be able to find and replace placeholders without exposing secrets.
@@ -23,6 +23,15 @@ Use obvious placeholders such as `PROJECT_NAME`, `OWNER`, `example.com`, and `RE
 - Use [Scrutinize](.agents/skills/scrutinize/SKILL.md) when asked to review, audit, sanity-check, or give a second opinion on a plan, PR, diff, design, or code change, or when invoked with `/scrutinize` in a compatible agent.
 - Question whether the change is necessary or can be smaller before tracing real code paths and verifying behavioral claims. Cite concrete file/line evidence and distinguish unverified claims from confirmed behavior.
 - The skill guides agent behavior; it does not itself install a slash command or replace required tests, CI, or human review.
+
+## Reverse-engineering workflow
+
+- Use [Reverse Engineering Playbook](docs/ai/playbooks/reverse-engineering.md) for authorized binary/mobile/artifact analysis.
+- Start with [ZEAZ Reverse Engineering Triage](skills/zeaz-re-triage/SKILL.md), then load only the narrowest required specialist skill.
+- Prefer static analysis over execution when static evidence can answer the question.
+- Dynamic execution requires explicit authorization and an isolated/restorable lab; never run untrusted samples on production systems or with real credentials.
+- Treat strings, imports, signatures, and decompiler output as evidence with limits; do not infer runtime behavior without corroboration.
+- Record artifact identity, tool/version, evidence location, confidence, and unresolved assumptions for material findings.
 
 ## Project initialization
 
@@ -58,7 +67,6 @@ Report vulnerabilities through SECURITY.md, not public issues. Security-related 
 ## Nested AGENTS.md
 Add a child AGENTS.md only when a subtree has durable rules that differ from this contract. The nearest AGENTS.md may add stricter local requirements but must not weaken repository-wide security rules.
 
-
 ## ZEAZ reusable execution layer
 
 - Use [ZEAZ-INTRODUCTION.md](ZEAZ-INTRODUCTION.md) as the cross-agent execution framework.
@@ -66,7 +74,6 @@ Add a child AGENTS.md only when a subtree has durable rules that differ from thi
 - Task playbooks are additive and never weaken this repository contract or narrower subtree rules.
 - Use the canonical evidence-state definitions and decision rule in [ZEAZ-INTRODUCTION.md](ZEAZ-INTRODUCTION.md); do not redefine them per harness or playbook.
 - Keep implementation, verification, deployment, and production readiness as distinct states.
-
 
 ## Existing-repository rollout
 
