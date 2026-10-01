@@ -1,19 +1,108 @@
-# zTemplate
+# zRepro
 
-A reusable, security-oriented GitHub project starting point with governance, engineering guidance, CI, AI-agent operating rules, repository validation, and an automated GitHub administration gate.
+zRepro is a reusable, security-oriented engineering and reverse-engineering project foundation. It combines repository governance, CI/security controls, cross-agent execution rules, evidence-state semantics, and reusable reverse-engineering agents/skills for authorized analysis.
 
-This repository is a **template foundation**, not a deployable application. A repository generated from it still requires stack-specific implementation, deployment, recovery, observability, and security evidence before that application can be called production ready.
+This repository is a **template and analysis framework**, not a deployable application and not evidence that any generated project is production ready.
+
+## Core capabilities
+
+### Engineering foundation
+- repository governance and CODEOWNERS
+- CI baseline validation
+- CodeQL and Dependency Review
+- Dependabot and repository-security guidance
+- release/rollback/recovery documentation
+- GitHub administration apply/verify tooling
+- ZEAZ cross-agent execution framework
+- reusable skill/component/plugin catalog structure
+
+### Reverse-engineering layer
+- artifact triage and cryptographic identity
+- static native/bytecode analysis
+- contained dynamic analysis
+- Android/mobile analysis
+- Apple platform analysis
+- Samsung Galaxy / One UI analysis
+- Samsung Knox enterprise-policy and attestation analysis
+- defensive detection engineering
+
+See the [AI reusable layer](docs/ai/README.md), [skills catalog](skills/README.md), and [Reverse Engineering Playbook](docs/ai/playbooks/reverse-engineering.md).
+
+## Reverse-engineering routing
+
+```text
+artifact
+  -> zeaz-re-triage
+      -> zeaz-re-static
+      -> zeaz-re-dynamic        (authorized contained lab only)
+      -> zeaz-re-mobile         (Android)
+      -> zeaz-re-apple          (macOS/iOS/iPadOS/Mach-O)
+      -> zeaz-re-samsung        (Galaxy/One UI)
+      -> zeaz-re-knox           (KPE/Knox/EMM/MDM/attestation)
+      -> zeaz-re-detection      (defensive detections)
+```
+
+Material findings should identify artifact hash, tool/version, evidence source, confidence, and environment. Strings, imports, permissions, entitlements, API references, or decompiler output alone are not proof of runtime behavior.
+
+## Platform specialists
+
+### Apple
+Covers authorized analysis of:
+- Mach-O executables and dylibs
+- macOS `.app`
+- iOS/iPadOS `.ipa`
+- frameworks / XCFrameworks
+- Objective-C runtime metadata
+- Swift symbols/metadata
+- code-signing state, entitlements and provisioning metadata
+
+### Samsung
+Covers authorized analysis of:
+- Galaxy / One UI packages
+- APK / AAB / DEX
+- Samsung-specific frameworks and services
+- ARM/ARM64 native libraries
+- Binder/IPC, intents, providers, services and receivers
+- device/build-aware behavior
+
+### Samsung Knox
+Covers authorized analysis of:
+- Knox SDK / Knox Platform for Enterprise
+- Knox Manage / EMM / MDM integration
+- device-policy/admin interactions
+- enterprise-policy state
+- attestation request/verification flows
+- managed-device evidence
+
+Knox analysis explicitly separates:
+
+```text
+declared -> assigned -> effective -> observed
+```
+
+A declared permission or policy reference is not proof of effective enforcement.
+
+## Authorization and safety boundaries
+
+Reverse-engineering artifacts and runtime samples are untrusted input.
+
+Dynamic execution requires an explicitly authorized disposable/restorable lab. Do not use production credentials, signing identities, enterprise secrets, or personal user data.
+
+The framework does not authorize bypassing:
+- Apple Activation Lock, Apple ID controls, FairPlay/DRM, or device ownership protections
+- Samsung FRP, Samsung Account, bootloader/Verified Boot protections
+- Knox/EMM/MDM enrollment, policy enforcement, or attestation trust decisions
 
 ## Create a new project
 
-1. Click **Use this template** on GitHub and clone the generated repository.
-2. Preview project initialization:
+1. Create a repository from this template and clone it.
+2. Preview initialization:
 
    ```bash
    python3 scripts/bootstrap.py --name my-service --owner my-org --codeowner my-org/maintainers --description 'New service'
    ```
 
-3. Apply explicitly, inspect the diff, and review ownership/security files:
+3. Apply explicitly:
 
    ```bash
    python3 scripts/bootstrap.py --name my-service --owner my-org --codeowner my-org/maintainers --description 'New service' --apply
@@ -21,71 +110,25 @@ This repository is a **template foundation**, not a deployable application. A re
    ```
 
 4. Select an optional [project profile](docs/profiles.md), replace placeholder `Makefile` / `Dockerfile`, and complete the [Implementation Checklist](IMPLEMENTATION-CHECKLIST.md).
-5. Configure and verify repository administration controls from an authenticated GitHub admin identity:
+5. Apply and verify repository controls:
 
    ```bash
    python3 scripts/github_admin.py --repo my-org/my-service --apply
    ```
 
-6. Add stack-specific CI, security, release, deployment, backup/restore, rollback, monitoring, and operational evidence.
+6. Add stack-specific CI, security, deployment, recovery, observability and operational evidence.
 
-See the complete [startup guide](docs/startup.md).
-
-## Included
-
-- Issue and pull request templates
-- CODEOWNERS and governance guidance
-- Security and support policies
-- CI repository-baseline validation
-- CodeQL security scanning
-- Dependency Review
-- Dependabot configuration
-- Immutable SHA pinning for baseline GitHub Actions
-- Release guidance and release-note configuration
-- Repository structure and local Markdown-link validation
-- GitHub administration automation with read-back verification
-- Conventional commit / PR guidance
-- Documentation, ADR, changelog, and roadmap structure
-- Environment example
-- Docker and Makefile placeholders
-- Cloudflare/Terraform ownership contract
-- Cross-agent ZEAZ engineering execution layer
-- Reusable skill/catalog structure
+See [docs/startup.md](docs/startup.md).
 
 ## Repository administration gate
 
 `scripts/github_admin.py` is dry-run by default.
 
-Apply and verify:
-
-```bash
-python3 scripts/github_admin.py --repo OWNER/REPO --apply
-```
-
-Verify without mutation:
-
 ```bash
 python3 scripts/github_admin.py --repo OWNER/REPO --verify
 ```
 
-The helper is designed to enforce or verify:
-
-- pull-request review before merge
-- CODEOWNERS review
-- stale-review dismissal
-- approval after the latest push
-- conversation resolution
-- strict required status checks
-- administrator enforcement
-- no force pushes
-- no protected-branch deletion
-- Dependabot vulnerability alerts/security fixes
-- private vulnerability reporting
-- secret scanning/push protection when available
-- read-only default Actions token permissions
-- Actions cannot approve pull requests
-
-Presence of this script is not evidence that a generated repository is configured. The effective settings must be read back successfully.
+Presence of the script is not evidence that provider-side controls are active. Effective settings must be read back successfully.
 
 See [GitHub repository administration gate](docs/ai/guides/github-repository-admin.md).
 
@@ -95,90 +138,65 @@ See [GitHub repository administration gate](docs/ai/guides/github-repository-adm
 - [Repository agent contract](AGENTS.md)
 - [Claude Code instructions](CLAUDE.md)
 - [OpenCode instructions](OPENCODE.md)
-- [Reusable AI playbooks and prompts](docs/ai/README.md)
-- [ECC integration](docs/ai/guides/ecc-integration.md)
+- [Reusable AI agents, playbooks and prompts](docs/ai/README.md)
 - [ZEAZ skills catalog](skills/README.md)
 
-These files guide execution and evidence handling. They are not production-readiness evidence by themselves.
-
-## DNS and public hostnames
-
-Do not add duplicate Cloudflare/DNS ownership to a generated project. Public DNS and shared tunnel ingress must have one designated owning repository.
-
-See [Cloudflare and Terraform ownership](docs/cloudflare-terraform.md).
-
-## Template limitations
-
-- Baseline CI validates template structure and bootstrap behavior; generated projects must add real application lint/build/test/security checks.
-- The included Dockerfile and application Makefile targets are placeholders and must not ship unchanged.
-- Shared infrastructure remains owned by the designated infrastructure repository.
-- `scripts/github_admin.py` requires an authenticated GitHub identity with repository Administration permission.
-- A green CI run proves only the checks that actually ran; it does not prove application production readiness.
-- Generated repositories must independently verify deployment, rollback, backup/restore, observability, security, capacity, and incident-response gates that apply to the real system.
+These guide execution and evidence handling; they are not production-readiness evidence by themselves.
 
 ## Repository structure
 
 ```text
 .github/
-  ISSUE_TEMPLATE/
-  workflows/
-  CODEOWNERS
-  PULL_REQUEST_TEMPLATE.md
-  dependabot.yml
-  release.yml
+components.d/
 docs/
-  adr/
   ai/
+    agents/
     guides/
     playbooks/
     prompts/
-  architecture.md
-  development.md
-  release.md
-  repository-rollout.md
-  startup.md
-scripts/
-  bootstrap.py
-  github_admin.py
-  validate_repo.py
-skills/
-components.d/
 plugins.d/
+scripts/
+skills/
+  zeaz-skill-finder/
+  zeaz-re-triage/
+  zeaz-re-static/
+  zeaz-re-dynamic/
+  zeaz-re-mobile/
+  zeaz-re-apple/
+  zeaz-re-samsung/
+  zeaz-re-knox/
+  zeaz-re-detection/
+tests/
 AGENTS.md
-CLAUDE.md
-OPENCODE.md
 ZEAZ-INTRODUCTION.md
-ecc-install.json
-CHANGELOG.md
-CODE_OF_CONDUCT.md
-CONTRIBUTING.md
-GOVERNANCE.md
 IMPLEMENTATION-CHECKLIST.md
-LICENSE
-Makefile
-README.md
 ROADMAP.md
+CHANGELOG.md
 SECURITY.md
 ```
 
 ## Principles
 
-- Secure by default
-- Least privilege
-- Immutable/reproducible automation where practical
-- Small, reviewable pull requests
-- Documentation as part of delivery
-- Evidence-backed readiness claims
-- No weakening of security gates merely to make CI green
-- Explicit rollback/recovery practices
-- Repository-specific policy is preserved when rolling the baseline into existing projects
+- secure by default
+- least privilege
+- explicit authorization
+- static-first analysis
+- evidence-backed findings
+- disposable/contained runtime analysis
+- reproducible tooling and commands
+- small, reviewable changes
+- no weakening of security controls merely to make CI green
+- explicit rollback/recovery
+- no production-readiness claim without environment-appropriate evidence
 
-## Rollout to existing repositories
+## Template limitations
 
-Do not bulk-copy this template over an established repository.
-
-Use the [repository rollout guide](docs/repository-rollout.md) to audit the target first and port only missing compatible controls.
+- Baseline CI proves only the checks that execute.
+- Generated applications require their own stack-specific tests/security/deployment evidence.
+- Reverse-engineering skills provide workflow guidance; they do not prove analysis completeness.
+- Platform behavior can vary by OS/device/model/build/region/management state.
+- Production readiness, security, deployment and release authorization remain separate evidence states.
 
 ## License
 
-MIT. See `LICENSE`.
+MIT. See [LICENSE](LICENSE).
