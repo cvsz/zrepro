@@ -1,0 +1,7 @@
+{
+  "fixture_type": "firmware",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic-firmware.bin", "format": "metadata", "platform": "embedded"},
+  "expected_observations": ["route to zeaz-re-firmware", "preserve original hash and separate image content from runtime state"]
+}
