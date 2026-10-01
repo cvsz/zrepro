@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "zrepro-mcp"
+version = "0.1.0"
+description = "Production-oriented MCP gateway for zRepro"
+requires-python = ">=3.12"
+dependencies = [
+  "mcp>=2.0,<3",
+  "pydantic>=2.11,<3",
+  "httpx>=0.28,<1",
+  "jsonschema>=4.25,<5",
+  "uvicorn>=0.35,<1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.4,<9", "pytest-asyncio>=1.1,<2", "ruff>=0.12,<1"]
+
+[project.scripts]
+zrepro-mcp = "zrepro_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/zrepro_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
