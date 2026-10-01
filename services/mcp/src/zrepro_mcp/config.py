@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 @dataclass(frozen=True)
@@ -34,6 +35,14 @@ class Settings:
         value.validate()
         return value
 
+    @staticmethod
+    def _require_https(name: str, value: str | None) -> None:
+        if value is None:
+            return
+        parsed = urlparse(value)
+        if parsed.scheme != "https" or not parsed.netloc:
+            raise ValueError(f"{name} must be an absolute https:// URL")
+
     def validate(self) -> None:
         if self.auth_mode not in {"local", "introspection"}:
             raise ValueError("ZREPRO_MCP_AUTH_MODE must be local or introspection")
@@ -50,5 +59,8 @@ class Settings:
             missing = [name for name, value in required.items() if not value]
             if missing:
                 raise ValueError("missing production auth settings: " + ", ".join(missing))
+            self._require_https("ZREPRO_MCP_ISSUER_URL", self.issuer_url)
+            self._require_https("ZREPRO_MCP_RESOURCE_URL", self.resource_url)
+            self._require_https("ZREPRO_MCP_INTROSPECTION_URL", self.introspection_url)
         if not (self.repo_root / "catalog/re-skills.json").is_file():
             raise ValueError(f"invalid ZREPRO_ROOT: {self.repo_root}")
