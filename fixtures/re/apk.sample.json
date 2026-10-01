@@ -1,0 +1,7 @@
+{
+  "fixture_type": "apk",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic.apk", "format": "APK", "architecture": "arm64-v8a", "platform": "Android"},
+  "expected_observations": ["route to zeaz-re-mobile", "classify exported components and permissions as metadata"]
+}

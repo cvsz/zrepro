@@ -1,0 +1,7 @@
+{
+  "fixture_type": "knox-policy",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic-knox-policy", "format": "metadata", "platform": "Samsung Knox"},
+  "expected_observations": ["route to zeaz-re-knox", "keep declared assigned effective observed policy states separate"]
+}

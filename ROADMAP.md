@@ -57,19 +57,20 @@ zRepro remains a reusable engineering foundation while adding evidence-driven re
 - [x] Knox Platform Analyst agent
 - [x] Knox playbook
 
-## Validation and automation next
+## Validation and automation
 
-- [ ] Add machine-readable schema validation for all canonical skill frontmatter
-- [ ] Add CI test ensuring every skill is registered exactly once in component/catalog indexes
-- [ ] Add CI test ensuring all agent/playbook links resolve
-- [ ] Add reference fixture corpus containing only safe synthetic/non-malicious artifacts
-- [ ] Add deterministic evidence-report schema
-- [ ] Add sample report fixtures for PE/ELF/Mach-O/APK
-- [ ] Add Apple bundle/Mach-O synthetic fixture validation
-- [ ] Add Samsung APK/One UI integration fixture validation
-- [ ] Add Knox policy-state synthetic fixture validation
-- [ ] Add tool-capability matrix with version compatibility
-- [ ] Add SBOM/provenance for executable helper tooling if helper code is introduced
+- [x] Machine-readable validation for canonical skill frontmatter
+- [x] CI test ensuring every skill is registered exactly once in component manifests
+- [x] CI/local validation ensuring all agent/playbook Markdown links resolve
+- [x] Safe synthetic/non-malicious metadata fixture corpus
+- [x] Deterministic reverse-engineering evidence-report schema
+- [x] Sample evidence reports for PE/ELF/Mach-O/APK
+- [x] Apple Mach-O synthetic fixture validation
+- [x] Samsung One UI synthetic fixture validation
+- [x] Knox policy-state synthetic fixture validation
+- [x] Reverse-engineering tool-capability/version-discipline matrix
+- [x] Validator SBOM and source-provenance evidence
+- [x] CI execution of repository, catalog, fixture, report and supply-chain validation
 
 ## Reusable project startup
 
@@ -78,8 +79,10 @@ zRepro remains a reusable engineering foundation while adding evidence-driven re
 - [x] Optional project profiles and adoption guide
 - [x] Bootstrap tests in baseline CI
 - [x] Repository administration verification helper
-- [ ] Validate production-capable per-stack adapters in generated repositories
-- [ ] Add end-to-end fixture verification for each adopted stack
+
+The following are conditional on a generated repository choosing a concrete application stack; they are not gates for this stack-neutral template itself:
+- production-capable per-stack adapters
+- end-to-end application fixture verification for each adopted stack
 
 ## Future optional modules
 
@@ -92,10 +95,10 @@ zRepro remains a reusable engineering foundation while adding evidence-driven re
 - [ ] safe fuzzing harness guidance
 - [ ] language-specific starter packs
 - [ ] Kubernetes/Helm starter packs
-- [ ] release signing and artifact attestation
+- [ ] release signing and artifact attestation for distributable artifacts
 - [ ] OpenSSF Scorecard workflow
-- [ ] container vulnerability scanning
-- [ ] machine-readable catalog/version index at scale
-- [ ] benchmark/reference-set framework
+- [ ] container vulnerability scanning when container artifacts exist
+- [ ] machine-readable catalog/version index when catalog scale justifies it
+- [ ] benchmark/reference-set framework when representative scenarios exist
 
 Generated repositories should adopt only modules appropriate to their scope, authorization, threat model, operating environment and compliance requirements.

@@ -22,7 +22,10 @@ jobs:
       - name: Validate repository structure and Markdown links
         run: python3 scripts/validate_repo.py
 
-      - name: Exercise startup bootstrap tests
+      - name: Validate reverse-engineering catalog and fixtures
+        run: python3 scripts/validate_re_catalog.py
+
+      - name: Exercise repository tests
         run: python3 -m unittest discover -s tests -v
 
       - name: Check for common secret file names
@@ -37,4 +40,4 @@ jobs:
       - name: Validate YAML syntax
         shell: bash
         run: |
-          ruby -e 'require "yaml"; Dir.glob(".github/**/*.{yml,yaml}").each { |f| YAML.load_file(f); puts "ok #{f}" }'
+          ruby -e 'require "yaml"; (Dir.glob(".github/**/*.{yml,yaml}") + Dir.glob("components.d/*.{yml,yaml}") + Dir.glob("plugins.d/*.{yml,yaml}")).uniq.each { |f| YAML.load_file(f); puts "ok #{f}" }'

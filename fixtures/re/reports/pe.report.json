@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic.exe", "sha256": null, "type": "PE32+", "platform": "Windows", "architecture": "x86_64", "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate PE evidence-report routing", "environment": "metadata-only CI fixture", "non_goals": ["runtime execution"]},
+  "findings": [{"id": "PE-001", "summary": "Import metadata is a capability surface only.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/pe.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No executable bytes are present."],
+  "next_evidence_step": null
+}

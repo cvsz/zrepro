@@ -7,6 +7,7 @@ help:
 
 validate-template:
 	python3 scripts/validate_repo.py
+	python3 scripts/validate_re_catalog.py
 	python3 -m unittest discover -s tests -v
 
 setup format lint test build security:

@@ -1,0 +1,7 @@
+{
+  "fixture_type": "samsung-oneui",
+  "safe_synthetic": true,
+  "contains_executable_bytes": false,
+  "artifact": {"name": "synthetic-samsung.apk", "format": "APK", "platform": "Samsung One UI"},
+  "expected_observations": ["route to zeaz-re-samsung", "record exact model and One UI build before device-specific runtime claims"]
+}

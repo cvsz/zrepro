@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate ztemplate structure and local Markdown links."""
+"""Validate zRepro structure and local Markdown links."""
 
 from __future__ import annotations
 
@@ -26,15 +26,31 @@ REQUIRED_PATHS = (
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/dependabot.yml",
     "docs/ai/README.md",
+    "docs/ai/agents",
     "docs/ai/guides",
     "docs/ai/playbooks",
     "docs/ai/prompts",
     "skills/zeaz-skill-finder/SKILL.md",
+    "skills/zeaz-re-triage/SKILL.md",
+    "skills/zeaz-re-static/SKILL.md",
+    "skills/zeaz-re-dynamic/SKILL.md",
+    "skills/zeaz-re-mobile/SKILL.md",
+    "skills/zeaz-re-apple/SKILL.md",
+    "skills/zeaz-re-samsung/SKILL.md",
+    "skills/zeaz-re-knox/SKILL.md",
+    "skills/zeaz-re-detection/SKILL.md",
     "components.d/zeaz-engineering.yml",
+    "components.d/zeaz-reverse-engineering.yml",
     "plugins.d/zeaz-skills.yml",
-    "ecc-install.json",
     "scripts/github_admin.py",
+    "scripts/validate_re_catalog.py",
+    "schemas/re-evidence-report.schema.json",
+    "fixtures/re/README.md",
+    "sbom/re-validator.spdx.json",
+    "provenance/re-validator.md",
     "docs/ai/guides/github-repository-admin.md",
+    "docs/ai/guides/tool-capability-matrix.md",
+    "docs/ai/guides/evidence-report-schema.md",
 )
 
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
@@ -88,7 +104,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    print("Repository structure and local Markdown links are valid.")
+    print("zRepro structure and local Markdown links are valid.")
     return 0
 
 

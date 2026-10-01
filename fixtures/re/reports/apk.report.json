@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic.apk", "sha256": null, "type": "APK", "platform": "Android", "architecture": "arm64-v8a", "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate Android evidence-report routing", "environment": "metadata-only CI fixture", "non_goals": ["runtime execution"]},
+  "findings": [{"id": "APK-001", "summary": "Manifest permissions and exported components are metadata, not proof of invocation.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/apk.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No APK bytes or device are present."],
+  "next_evidence_step": null
+}
