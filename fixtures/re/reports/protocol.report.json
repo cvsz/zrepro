@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-protocol.json", "sha256": null, "type": "message-metadata", "platform": "protocol", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate protocol-reconstruction evidence semantics", "environment": "metadata-only CI fixture", "non_goals": ["authentication bypass"]},
+  "findings": [{"id": "PROTO-001", "summary": "Observed framing and fields are distinct from inferred field semantics.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/protocol.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No live traffic or third-party endpoint is involved."],
+  "next_evidence_step": null
+}
