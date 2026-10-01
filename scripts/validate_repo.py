@@ -11,43 +11,26 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_PATHS = (
-    "README.md",
-    "ABOUT.md",
-    "AGENTS.md",
-    "CLAUDE.md",
-    "OPENCODE.md",
-    "ZEAZ-INTRODUCTION.md",
-    "CONTRIBUTING.md",
-    "SECURITY.md",
-    "CODE_OF_CONDUCT.md",
-    "CHANGELOG.md",
-    "ROADMAP.md",
-    "IMPLEMENTATION-CHECKLIST.md",
-    ".github/PULL_REQUEST_TEMPLATE.md",
-    ".github/dependabot.yml",
-    "docs/ai/README.md",
-    "docs/ai/agents",
-    "docs/ai/guides",
-    "docs/ai/playbooks",
-    "docs/ai/prompts",
-    "skills/zeaz-skill-finder/SKILL.md",
-    "skills/zeaz-re-triage/SKILL.md",
-    "skills/zeaz-re-static/SKILL.md",
-    "skills/zeaz-re-dynamic/SKILL.md",
-    "skills/zeaz-re-mobile/SKILL.md",
-    "skills/zeaz-re-apple/SKILL.md",
-    "skills/zeaz-re-samsung/SKILL.md",
-    "skills/zeaz-re-knox/SKILL.md",
-    "skills/zeaz-re-detection/SKILL.md",
-    "components.d/zeaz-engineering.yml",
-    "components.d/zeaz-reverse-engineering.yml",
-    "plugins.d/zeaz-skills.yml",
-    "scripts/github_admin.py",
-    "scripts/validate_re_catalog.py",
-    "schemas/re-evidence-report.schema.json",
-    "fixtures/re/README.md",
-    "sbom/re-validator.spdx.json",
-    "provenance/re-validator.md",
+    "README.md", "ABOUT.md", "AGENTS.md", "CLAUDE.md", "OPENCODE.md",
+    "ZEAZ-INTRODUCTION.md", "CONTRIBUTING.md", "SECURITY.md",
+    "CODE_OF_CONDUCT.md", "CHANGELOG.md", "ROADMAP.md",
+    "IMPLEMENTATION-CHECKLIST.md", ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/dependabot.yml", "docs/ai/README.md", "docs/ai/agents",
+    "docs/ai/guides", "docs/ai/playbooks", "docs/ai/prompts",
+    "skills/zeaz-skill-finder/SKILL.md", "skills/zeaz-re-triage/SKILL.md",
+    "skills/zeaz-re-static/SKILL.md", "skills/zeaz-re-dynamic/SKILL.md",
+    "skills/zeaz-re-mobile/SKILL.md", "skills/zeaz-re-apple/SKILL.md",
+    "skills/zeaz-re-samsung/SKILL.md", "skills/zeaz-re-knox/SKILL.md",
+    "skills/zeaz-re-windows/SKILL.md", "skills/zeaz-re-linux/SKILL.md",
+    "skills/zeaz-re-firmware/SKILL.md", "skills/zeaz-re-document/SKILL.md",
+    "skills/zeaz-re-memory/SKILL.md", "skills/zeaz-re-protocol/SKILL.md",
+    "skills/zeaz-re-fuzzing/SKILL.md", "skills/zeaz-re-detection/SKILL.md",
+    "components.d/zeaz-engineering.yml", "components.d/zeaz-reverse-engineering.yml",
+    "plugins.d/zeaz-skills.yml", "scripts/github_admin.py",
+    "scripts/validate_re_catalog.py", "schemas/re-evidence-report.schema.json",
+    "fixtures/re/README.md", "catalog/re-skills.json",
+    "benchmarks/re/README.md", "benchmarks/re/scenarios.json",
+    "sbom/re-validator.spdx.json", "provenance/re-validator.md",
     "docs/ai/guides/github-repository-admin.md",
     "docs/ai/guides/tool-capability-matrix.md",
     "docs/ai/guides/evidence-report-schema.md",
@@ -58,11 +41,7 @@ SKIP_PREFIXES = ("http://", "https://", "mailto:", "tel:", "#", "data:")
 
 
 def validate_required_paths() -> list[str]:
-    errors: list[str] = []
-    for rel in REQUIRED_PATHS:
-        if not (ROOT / rel).exists():
-            errors.append(f"missing required path: {rel}")
-    return errors
+    return [f"missing required path: {rel}" for rel in REQUIRED_PATHS if not (ROOT / rel).exists()]
 
 
 def normalize_link_target(raw: str) -> str:
