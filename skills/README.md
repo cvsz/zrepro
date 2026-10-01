@@ -8,6 +8,18 @@ Each skill lives in one top-level directory:
 skills/<skill-name>/SKILL.md
 ```
 
+## Current catalog
+
+- [ZEAZ Skill Finder](zeaz-skill-finder/SKILL.md) — discovery and routing.
+- [ZEAZ Reverse Engineering Triage](zeaz-re-triage/SKILL.md) — authorization, artifact identity, evidence plan and routing.
+- [ZEAZ Static Reverse Engineering](zeaz-re-static/SKILL.md) — binary/bytecode structure, disassembly/decompilation and static evidence.
+- [ZEAZ Dynamic Reverse Engineering](zeaz-re-dynamic/SKILL.md) — contained runtime observation and debugger evidence.
+- [ZEAZ Mobile Reverse Engineering](zeaz-re-mobile/SKILL.md) — APK/AAB/DEX and Android component analysis.
+- [ZEAZ Apple Platform Reverse Engineering](zeaz-re-apple/SKILL.md) — macOS/iOS/iPadOS, Mach-O, app bundles, signing, entitlements, Objective-C and Swift analysis.
+- [ZEAZ Samsung Platform Reverse Engineering](zeaz-re-samsung/SKILL.md) — Galaxy/One UI, Samsung-specific Android services/frameworks and ARM/ARM64 native analysis.
+- [ZEAZ Samsung Knox Reverse Engineering](zeaz-re-knox/SKILL.md) — Knox SDK/KPE, enterprise policy, EMM/MDM, managed-device behavior and attestation analysis.
+- [ZEAZ Reverse Engineering Detection Engineering](zeaz-re-detection/SKILL.md) — defensive indicators and YARA-like detection design from verified evidence.
+
 ## Design rules
 
 - One skill per directory.
