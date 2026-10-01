@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "artifact": {"identifier": "synthetic-document.pdf", "sha256": null, "type": "PDF", "platform": "document", "architecture": null, "provenance": "safe synthetic metadata fixture"},
+  "scope": {"authorized_objective": "Validate document-analysis routing", "environment": "metadata-only CI fixture", "non_goals": ["active-content execution"]},
+  "findings": [{"id": "DOC-001", "summary": "Embedded scripts and URLs are metadata until runtime execution is evidenced.", "confidence": "confirmed", "evidence": [{"kind": "metadata", "source": "fixtures/re/document.sample.json", "tool": null, "tool_version": null, "command_or_method": "synthetic fixture validation"}]}],
+  "evidence_state": "VERIFIED",
+  "limitations": ["No active document content is present."],
+  "next_evidence_step": null
+}
