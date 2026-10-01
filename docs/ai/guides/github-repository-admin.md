@@ -4,10 +4,10 @@ Repository files alone cannot enforce GitHub branch protection or repository-lev
 
 ## Automated operator path
 
-The repository includes an idempotent helper:
+The repository includes an idempotent helper. Every invocation requires an explicit `OWNER/REPO` target so a copied template cannot silently operate on its source repository:
 
 ```bash
-python3 scripts/github_admin.py
+python3 scripts/github_admin.py --repo OWNER/REPO
 ```
 
 The default invocation is dry-run only.
@@ -15,13 +15,13 @@ The default invocation is dry-run only.
 Apply and immediately verify:
 
 ```bash
-python3 scripts/github_admin.py --apply
+python3 scripts/github_admin.py --repo OWNER/REPO --apply
 ```
 
 Verify without mutation:
 
 ```bash
-python3 scripts/github_admin.py --verify
+python3 scripts/github_admin.py --repo OWNER/REPO --verify
 ```
 
 Requirements:
@@ -47,6 +47,8 @@ The helper configures `main` to require:
 - administrator enforcement;
 - no force pushes;
 - no branch deletion.
+
+Before applying, it reads existing branch protection and merges these requirements into the current rules. Existing required checks, push restrictions, review restrictions, bypass allowances, and stronger rules are preserved. Unknown response fields or actor structures stop the update for manual review. Required baseline checks are bound to the GitHub Actions App.
 
 It also enables or verifies:
 

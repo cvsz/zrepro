@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 import re
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = ROOT / "skills"
@@ -25,10 +25,11 @@ REQUIRED_METADATA = {
     "requires_credentials", "evidence_required",
 }
 ALLOWED_RISK = {"low", "medium", "high"}
-ALLOWED_EVIDENCE_STATES = {
-    "VERIFIED", "PARTIALLY VERIFIED", "UNVERIFIED", "BLOCKED", "NOT APPLICABLE",
+SUPPORTED_SCHEMA_KEYWORDS = {
+    "$schema", "$id", "title", "description", "type", "additionalProperties",
+    "required", "properties", "items", "enum", "const", "minLength", "minItems", "pattern",
 }
-ALLOWED_CONFIDENCE = {"confirmed", "probable", "hypothesis"}
+JSON_SCHEMA_TYPES = {"object", "array", "string", "boolean", "integer", "number", "null"}
 REQUIRED_FIXTURE_TYPES = {
     "pe", "elf", "macho", "apk", "samsung-oneui", "knox-policy",
     "firmware", "document", "memory", "protocol", "fuzzing",
@@ -133,16 +134,166 @@ def validate_component_registration(skills: dict[str, dict[str, object]]) -> lis
     return errors
 
 
-def validate_schema() -> list[str]:
+def _validate_schema_definition(schema: object, path: str = "$schema") -> list[str]:
+    if not isinstance(schema, dict):
+        return [f"{path}: schema must be an object"]
+    errors: list[str] = []
+    unknown = set(schema) - SUPPORTED_SCHEMA_KEYWORDS
+    if unknown:
+        errors.append(f"{path}: unsupported schema keywords: {', '.join(sorted(unknown))}")
+
+    for metadata in ("$schema", "$id", "title", "description"):
+        if metadata in schema and not isinstance(schema[metadata], str):
+            errors.append(f"{path}.{metadata}: must be a string")
+
+    if "type" in schema:
+        types = schema["type"]
+        if isinstance(types, str):
+            types = [types]
+        if not isinstance(types, list) or not types or any(
+            not isinstance(t, str) or t not in JSON_SCHEMA_TYPES for t in types
+        ):
+            errors.append(f"{path}.type: unsupported or invalid JSON Schema type")
+
+    if "required" in schema:
+        required = schema["required"]
+        if not isinstance(required, list) or any(not isinstance(name, str) for name in required):
+            errors.append(f"{path}.required: must be an array of strings")
+        elif len(required) != len(set(required)):
+            errors.append(f"{path}.required: contains duplicate property names")
+
+    properties = schema.get("properties")
+    if "properties" in schema and not isinstance(properties, dict):
+        errors.append(f"{path}.properties: must be an object")
+    elif isinstance(properties, dict):
+        for name, subschema in properties.items():
+            if not isinstance(name, str):
+                errors.append(f"{path}.properties: property names must be strings")
+            else:
+                errors.extend(_validate_schema_definition(subschema, f"{path}.properties.{name}"))
+
+    if "items" in schema:
+        errors.extend(_validate_schema_definition(schema["items"], f"{path}.items"))
+
+    additional = schema.get("additionalProperties")
+    if "additionalProperties" in schema and not isinstance(additional, bool):
+        errors.extend(_validate_schema_definition(additional, f"{path}.additionalProperties"))
+
+    if "enum" in schema and (not isinstance(schema["enum"], list) or not schema["enum"]):
+        errors.append(f"{path}.enum: must be a non-empty array")
+    for keyword in ("minLength", "minItems"):
+        if keyword in schema and (
+            not isinstance(schema[keyword], int)
+            or isinstance(schema[keyword], bool)
+            or schema[keyword] < 0
+        ):
+            errors.append(f"{path}.{keyword}: must be a non-negative integer")
+    if "pattern" in schema:
+        if not isinstance(schema["pattern"], str):
+            errors.append(f"{path}.pattern: must be a string")
+        else:
+            try:
+                re.compile(schema["pattern"])
+            except re.error as exc:
+                errors.append(f"{path}.pattern: invalid regular expression: {exc}")
+    return errors
+
+
+def _matches_json_type(value: object, expected: str) -> bool:
+    if expected == "object":
+        return isinstance(value, dict)
+    if expected == "array":
+        return isinstance(value, list)
+    if expected == "string":
+        return isinstance(value, str)
+    if expected == "boolean":
+        return isinstance(value, bool)
+    if expected == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if expected == "number":
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    if expected == "null":
+        return value is None
+    return False
+
+
+def _validate_instance(value: object, schema: dict[str, object], path: str = "$",) -> list[str]:
+    errors: list[str] = []
+    expected_type = schema.get("type")
+    if expected_type is not None:
+        types = expected_type if isinstance(expected_type, list) else [expected_type]
+        if not any(_matches_json_type(value, item) for item in types):
+            return [f"{path}: expected type {' or '.join(types)}"]
+
+    if "const" in schema and value != schema["const"]:
+        errors.append(f"{path}: value does not match const")
+    enum = schema.get("enum")
+    if isinstance(enum, list) and value not in enum:
+        errors.append(f"{path}: value is not in the allowed enum")
+
+    if isinstance(value, dict):
+        required = schema.get("required", [])
+        if isinstance(required, list):
+            for name in required:
+                if name not in value:
+                    errors.append(f"{path}.{name}: required property is missing")
+        properties = schema.get("properties", {})
+        if not isinstance(properties, dict):
+            properties = {}
+        for name, child_schema in properties.items():
+            if name in value and isinstance(child_schema, dict):
+                errors.extend(_validate_instance(value[name], child_schema, f"{path}.{name}"))
+        additional = schema.get("additionalProperties", True)
+        for name, child_value in value.items():
+            if name in properties:
+                continue
+            if additional is False:
+                errors.append(f"{path}.{name}: additional property is not allowed")
+            elif isinstance(additional, dict):
+                errors.extend(_validate_instance(child_value, additional, f"{path}.{name}"))
+
+    if isinstance(value, list):
+        min_items = schema.get("minItems")
+        if isinstance(min_items, int) and len(value) < min_items:
+            errors.append(f"{path}: must contain at least {min_items} item(s)")
+        item_schema = schema.get("items")
+        if isinstance(item_schema, dict):
+            for index, child_value in enumerate(value):
+                errors.extend(_validate_instance(child_value, item_schema, f"{path}[{index}]"))
+
+    if isinstance(value, str):
+        min_length = schema.get("minLength")
+        if isinstance(min_length, int) and len(value) < min_length:
+            errors.append(f"{path}: must contain at least {min_length} character(s)")
+        pattern = schema.get("pattern")
+        if isinstance(pattern, str) and re.search(pattern, value) is None:
+            errors.append(f"{path}: value does not match the required pattern")
+    return errors
+
+
+def _load_evidence_schema() -> tuple[dict[str, object] | None, list[str]]:
     if not SCHEMA_PATH.exists():
-        return [f"missing evidence schema: {SCHEMA_PATH.relative_to(ROOT)}"]
+        return None, [f"missing evidence schema: {SCHEMA_PATH.relative_to(ROOT)}"]
     try:
         schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        return [f"{SCHEMA_PATH.relative_to(ROOT)}: invalid JSON: {exc}"]
+        return None, [f"{SCHEMA_PATH.relative_to(ROOT)}: invalid JSON: {exc}"]
+    if not isinstance(schema, dict):
+        return None, [f"{SCHEMA_PATH.relative_to(ROOT)}: schema root must be an object"]
+    errors = _validate_schema_definition(schema)
     expected = {"schema_version", "artifact", "scope", "findings", "evidence_state"}
-    missing = expected - set(schema.get("required", []))
-    return [] if not missing else [f"evidence schema missing required fields: {', '.join(sorted(missing))}"]
+    required = schema.get("required", [])
+    missing = expected - set(required if isinstance(required, list) else [])
+    if missing:
+        errors.append(f"evidence schema missing required fields: {', '.join(sorted(missing))}")
+    if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
+        errors.append("evidence schema must declare JSON Schema draft 2020-12")
+    return schema, errors
+
+
+def validate_schema() -> list[str]:
+    _, errors = _load_evidence_schema()
+    return errors
 
 
 def validate_fixtures() -> list[str]:
@@ -169,43 +320,66 @@ def validate_fixtures() -> list[str]:
     return errors
 
 
+def _validate_fixture_source(source: str) -> str | None:
+    """Return an error when an in-repo fixture reference escapes its corpus."""
+    if not source.startswith("fixtures/re/"):
+        return None
+    if "\\" in source:
+        return "fixture evidence source uses an unsupported path separator"
+    relative = PurePosixPath(source)
+    if ".." in relative.parts:
+        return "fixture evidence source escapes fixtures/re"
+    try:
+        fixture_root = FIXTURES_DIR.resolve()
+        candidate = ROOT.joinpath(*relative.parts).resolve()
+        candidate.relative_to(fixture_root)
+    except ValueError:
+        return "fixture evidence source escapes fixtures/re"
+    except (OSError, RuntimeError):
+        return "fixture evidence source is an invalid path"
+    try:
+        if not candidate.is_file():
+            return f"missing evidence source: {source}"
+    except (OSError, RuntimeError, ValueError):
+        return "fixture evidence source is an invalid path"
+    return None
+
+
 def validate_reports() -> list[str]:
     errors: list[str] = []
+    schema, schema_errors = _load_evidence_schema()
+    if schema_errors or schema is None:
+        return [f"cannot validate evidence reports: {error}" for error in schema_errors]
     existing = {p.name for p in REPORTS_DIR.glob("*.json")}
     missing_reports = REQUIRED_REPORTS - existing
     if missing_reports:
         errors.append(f"missing required report fixtures: {', '.join(sorted(missing_reports))}")
 
-    required = {"schema_version", "artifact", "scope", "findings", "evidence_state"}
     for path in sorted(REPORTS_DIR.glob("*.json")):
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as exc:
             errors.append(f"{path.relative_to(ROOT)}: invalid JSON: {exc}")
             continue
-        missing = required - set(data)
-        if missing:
-            errors.append(f"{path.relative_to(ROOT)}: missing fields: {', '.join(sorted(missing))}")
+        report_errors = _validate_instance(data, schema)
+        if report_errors:
+            errors.extend(f"{path.relative_to(ROOT)}: {error}" for error in report_errors)
             continue
-        if data.get("schema_version") != "1.0":
-            errors.append(f"{path.relative_to(ROOT)}: schema_version must be 1.0")
-        if data.get("evidence_state") not in ALLOWED_EVIDENCE_STATES:
-            errors.append(f"{path.relative_to(ROOT)}: invalid evidence_state")
         findings = data.get("findings")
         if not isinstance(findings, list):
-            errors.append(f"{path.relative_to(ROOT)}: findings must be a list")
+            errors.append(f"{path.relative_to(ROOT)}: findings cannot be inspected for fixture references")
             continue
         for finding in findings:
-            if finding.get("confidence") not in ALLOWED_CONFIDENCE:
-                errors.append(f"{path.relative_to(ROOT)}: invalid finding confidence")
-            evidence = finding.get("evidence")
-            if not isinstance(evidence, list) or not evidence:
-                errors.append(f"{path.relative_to(ROOT)}: each finding requires evidence")
+            if not isinstance(finding, dict) or not isinstance(finding.get("evidence"), list):
+                errors.append(f"{path.relative_to(ROOT)}: finding evidence cannot be inspected for fixture references")
                 continue
-            for item in evidence:
-                source = item.get("source")
-                if isinstance(source, str) and source.startswith("fixtures/re/") and not (ROOT / source).exists():
-                    errors.append(f"{path.relative_to(ROOT)}: missing evidence source: {source}")
+            for item in finding["evidence"]:
+                if not isinstance(item, dict) or not isinstance(item.get("source"), str):
+                    errors.append(f"{path.relative_to(ROOT)}: evidence source cannot be inspected")
+                    continue
+                source_error = _validate_fixture_source(item["source"])
+                if source_error:
+                    errors.append(f"{path.relative_to(ROOT)}: {source_error}")
     return errors
 
 
