@@ -12,6 +12,7 @@
 - [Reverse Engineering Orchestrator](agents/reverse-engineering-orchestrator.md)
 - [Static Binary Analyst](agents/static-binary-analyst.md)
 - [Runtime Behavior Analyst](agents/runtime-behavior-analyst.md)
+- [Apple Platform Reverse Engineering Analyst](agents/apple-platform-analyst.md)
 
 ## Guides
 
@@ -25,6 +26,7 @@
 ## Playbooks
 
 - [Reverse Engineering](playbooks/reverse-engineering.md)
+- [Apple Platform Reverse Engineering](playbooks/apple-reverse-engineering.md)
 - [Repository Production Readiness](playbooks/repository-production-readiness.md)
 - [Security Audit](playbooks/security-audit.md)
 - [Incident Response](playbooks/incident-response.md)
