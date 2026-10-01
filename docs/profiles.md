@@ -3,7 +3,6 @@
 Profiles are adoption guides, not production-ready starter applications. Every generated project must replace placeholders and verify its own runtime/security/operations.
 
 ## Common baseline for every profile
-
 - initialize identity with `scripts/bootstrap.py`
 - run `make validate-template`
 - configure real CODEOWNERS/security contacts
@@ -13,61 +12,30 @@ Profiles are adoption guides, not production-ready starter applications. Every g
 - complete architecture/development/release documentation
 - establish rollback and recovery evidence appropriate to the system
 
+## Language adoption packs
+Use only when the generated repository actually uses the language:
+- [Python](../starter-packs/python/README.md)
+- [Node.js / TypeScript](../starter-packs/node/README.md)
+- [Go](../starter-packs/go/README.md)
+- [Rust](../starter-packs/rust/README.md)
+
+These packs define adoption gates, not a preselected framework.
+
 ## Service / API
-
-Add:
-
-- runtime/package-manager pinning
-- unit/integration/API contract tests
-- authentication/authorization tests
-- database/migration handling
-- container/build validation
-- health/readiness endpoints
-- deployment/rollback strategy
-- logs/metrics/traces and alerting
-- backup/restore if stateful
+Add runtime pinning, deterministic dependency installation, contract tests, authn/authz tests, migration handling, health/readiness, deployment/rollback, observability and backup/restore where stateful.
 
 ## Web application
-
-Add:
-
-- frontend build/lint/typecheck/test
-- browser/E2E coverage for critical paths
-- accessibility checks where applicable
-- security headers/session/CSRF controls
-- asset/build provenance as appropriate
-- real backend/API integration verification
-- deployment/rollback and monitoring
+Add frontend build/lint/typecheck/test, browser/E2E coverage, accessibility checks, session/CSRF/security headers, backend integration verification and deployment/monitoring evidence.
 
 ## Library / SDK
-
-Add:
-
-- supported runtime matrix
-- API/compatibility tests
-- packaging validation
-- release provenance/signing if required
-- versioning/deprecation policy
+Add supported runtime matrix, compatibility tests, packaging validation, version/deprecation policy and artifact provenance/signing when applicable.
 
 ## Monorepo
-
-Add:
-
-- workspace-aware change detection
-- package/app ownership boundaries
-- dependency graph validation
-- consistent release/version policy
-- scoped CI without hiding required cross-package integration tests
+Add workspace-aware change detection, ownership boundaries, dependency graph validation and release/version policy without hiding required cross-package integration tests.
 
 ## Infrastructure / platform
+Add IaC formatting/validation/plan checks, ownership boundaries, least-privilege credentials, approvals, rollback/failover/recovery and drift detection.
 
-Add:
-
-- IaC formatting/validation/plan checks
-- explicit state/ownership boundaries
-- least-privilege deployment credentials
-- change approval/environment protection
-- rollback/failover/recovery procedures
-- drift detection and observability
+For Kubernetes deployments, use the [Kubernetes / Helm starter pack](../starter-packs/kubernetes-helm/README.md).
 
 Choose the smallest profile that matches the product. Do not add modules merely for checklist completeness.

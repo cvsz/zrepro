@@ -1,30 +1,38 @@
 # zRepro
 
-zRepro is a reusable, security-oriented engineering and reverse-engineering project foundation. It combines repository governance, CI/security controls, cross-agent execution rules, evidence-state semantics, and reusable reverse-engineering agents/skills for authorized analysis.
+zRepro is a reusable, security-oriented engineering and reverse-engineering project foundation. It combines repository governance, CI/security controls, cross-agent execution rules, evidence-state semantics, reusable reverse-engineering agents/skills, validation fixtures, starter packs, and supply-chain checks.
 
-This repository is a **template and analysis framework**, not a deployable application and not evidence that any generated project is production ready.
+This repository is a **template and analysis framework**, not a deployable application and not evidence that a generated project is production ready.
 
 ## Core capabilities
 
 ### Engineering foundation
 - repository governance and CODEOWNERS
 - CI baseline validation
-- CodeQL and Dependency Review
-- Dependabot and repository-security guidance
-- release/rollback/recovery documentation
+- CodeQL, Dependency Review and Dependabot
+- advisory OpenSSF Scorecard workflow
+- release/rollback/recovery guidance
 - GitHub administration apply/verify tooling
 - ZEAZ cross-agent execution framework
 - reusable skill/component/plugin catalog structure
+- Python, Node.js/TypeScript, Go and Rust adoption starter packs
+- Kubernetes/Helm adoption starter pack
 
 ### Reverse-engineering layer
 - artifact triage and cryptographic identity
-- static native/bytecode analysis
-- contained dynamic analysis
-- Android/mobile analysis
-- Apple platform analysis
-- Samsung Galaxy / One UI analysis
-- Samsung Knox enterprise-policy and attestation analysis
+- static and contained dynamic analysis
+- Windows PE/COFF and Linux ELF
+- Android/mobile
+- Apple macOS/iOS/iPadOS/Mach-O
+- Samsung Galaxy/One UI
+- Samsung Knox/KPE/EMM/MDM/attestation
+- firmware/update images
+- PDF/Office/document artifacts
+- memory forensics
+- protocol/interface reconstruction
+- safe bounded fuzzing
 - defensive detection engineering
+- machine-readable skill catalog, evidence schema, synthetic fixtures/reports and reference scenarios
 
 See the [AI reusable layer](docs/ai/README.md), [skills catalog](skills/README.md), and [Reverse Engineering Playbook](docs/ai/playbooks/reverse-engineering.md).
 
@@ -45,7 +53,7 @@ See the [AI reusable layer](docs/ai/README.md), [skills catalog](skills/README.m
    ```
 
 4. Select an optional [project profile](docs/profiles.md), replace placeholder `Makefile` / `Dockerfile`, and complete the [Implementation Checklist](IMPLEMENTATION-CHECKLIST.md).
-5. Configure and verify repository administration controls from an authenticated GitHub admin identity:
+5. Configure and verify repository administration controls:
 
    ```bash
    python3 scripts/github_admin.py --repo my-org/my-service --apply
@@ -53,7 +61,17 @@ See the [AI reusable layer](docs/ai/README.md), [skills catalog](skills/README.m
 
 6. Add stack-specific CI, security, release, deployment, backup/restore, rollback, monitoring, and operational evidence.
 
-See the complete [startup guide](docs/startup.md).
+See the [startup guide](docs/startup.md).
+
+## Starter packs
+
+- [Python](starter-packs/python/README.md)
+- [Node.js / TypeScript](starter-packs/node/README.md)
+- [Go](starter-packs/go/README.md)
+- [Rust](starter-packs/rust/README.md)
+- [Kubernetes / Helm](starter-packs/kubernetes-helm/README.md)
+
+Starter packs are adoption guidance, not production-ready applications.
 
 ## Reverse-engineering routing
 
@@ -61,127 +79,54 @@ See the complete [startup guide](docs/startup.md).
 artifact
   -> zeaz-re-triage
       -> zeaz-re-static
-      -> zeaz-re-dynamic        (authorized contained lab only)
-      -> zeaz-re-mobile         (Android)
-      -> zeaz-re-apple          (macOS/iOS/iPadOS/Mach-O)
-      -> zeaz-re-samsung        (Galaxy/One UI)
-      -> zeaz-re-knox           (KPE/Knox/EMM/MDM/attestation)
-      -> zeaz-re-detection      (defensive detections)
+      -> zeaz-re-dynamic
+      -> zeaz-re-windows
+      -> zeaz-re-linux
+      -> zeaz-re-mobile
+      -> zeaz-re-apple
+      -> zeaz-re-samsung
+      -> zeaz-re-knox
+      -> zeaz-re-firmware
+      -> zeaz-re-document
+      -> zeaz-re-memory
+      -> zeaz-re-protocol
+      -> zeaz-re-fuzzing
+      -> zeaz-re-detection
 ```
 
 Material findings should identify artifact hash, tool/version, evidence source, confidence, and environment. Strings, imports, permissions, entitlements, API references, or decompiler output alone are not proof of runtime behavior.
 
-## Platform specialists
+## Validation surfaces
 
-### Apple
-Covers authorized analysis of:
-- Mach-O executables and dylibs
-- macOS `.app`
-- iOS/iPadOS `.ipa`
-- frameworks / XCFrameworks
-- Objective-C runtime metadata
-- Swift symbols/metadata
-- code-signing state, entitlements and provisioning metadata
+- `schemas/re-evidence-report.schema.json`
+- `catalog/re-skills.json`
+- `fixtures/re/`
+- `benchmarks/re/scenarios.json`
+- `scripts/validate_re_catalog.py`
 
-### Samsung
-Covers authorized analysis of:
-- Galaxy / One UI packages
-- APK / AAB / DEX
-- Samsung-specific frameworks and services
-- ARM/ARM64 native libraries
-- Binder/IPC, intents, providers, services and receivers
-- device/build-aware behavior
+`make validate-template` validates repository links/structure, the RE catalog, fixtures/reports/reference scenarios, and repository tests.
 
-### Samsung Knox
-Covers authorized analysis of:
-- Knox SDK / Knox Platform for Enterprise
-- Knox Manage / EMM / MDM integration
-- device-policy/admin interactions
-- enterprise-policy state
-- attestation request/verification flows
-- managed-device evidence
+## OpenSSF Scorecard
 
-Knox analysis explicitly separates:
+zRepro includes an advisory Scorecard workflow. Results are not published to the Scorecard service and SARIF is uploaded to GitHub Code Scanning.
 
-```text
-declared -> assigned -> effective -> observed
-```
-
-A declared permission or policy reference is not proof of effective enforcement.
+See [OpenSSF Scorecard configuration](docs/security/openssf-scorecard.md). The upstream v2.4.4 action currently references its runtime container using a mutable tag, so the action commit pin does not independently digest-pin the runtime image.
 
 ## Authorization and safety boundaries
 
-Reverse-engineering artifacts and runtime samples are untrusted input.
+Reverse-engineering artifacts and runtime samples are untrusted input. Dynamic execution requires an explicitly authorized disposable/restorable lab. Do not use production credentials, signing identities, enterprise secrets, or unrelated personal data.
 
-Dynamic execution requires an explicitly authorized disposable/restorable lab. Do not use production credentials, signing identities, enterprise secrets, or personal user data.
-
-The framework does not authorize bypassing:
-- Apple Activation Lock, Apple ID controls, FairPlay/DRM, or device ownership protections
-- Samsung FRP, Samsung Account, bootloader/Verified Boot protections
-- Knox/EMM/MDM enrollment, policy enforcement, or attestation trust decisions
+The framework does not authorize bypassing account/device ownership, DRM, enrollment/MDM, attestation, Verified Boot or equivalent protections; destructive flashing; unauthorized credential extraction; third-party production fuzzing; or uncontrolled propagation.
 
 ## Repository administration gate
 
 `scripts/github_admin.py` is dry-run by default.
 
-Apply and verify:
-
-```bash
-python3 scripts/github_admin.py --repo OWNER/REPO --apply
-```
-
-Verify without mutation:
-
 ```bash
 python3 scripts/github_admin.py --repo OWNER/REPO --verify
 ```
 
-Presence of the script is not evidence that provider-side controls are active. Effective settings must be read back successfully.
-
-See [GitHub repository administration gate](docs/ai/guides/github-repository-admin.md).
-
-## AI engineering execution layer
-
-- [ZEAZ engineering execution framework](ZEAZ-INTRODUCTION.md)
-- [Repository agent contract](AGENTS.md)
-- [Claude Code instructions](CLAUDE.md)
-- [OpenCode instructions](OPENCODE.md)
-- [Reusable AI agents, playbooks and prompts](docs/ai/README.md)
-- [ZEAZ skills catalog](skills/README.md)
-
-These guide execution and evidence handling; they are not production-readiness evidence by themselves.
-
-## Repository structure
-
-```text
-.github/
-components.d/
-docs/
-  ai/
-    agents/
-    guides/
-    playbooks/
-    prompts/
-plugins.d/
-scripts/
-skills/
-  zeaz-skill-finder/
-  zeaz-re-triage/
-  zeaz-re-static/
-  zeaz-re-dynamic/
-  zeaz-re-mobile/
-  zeaz-re-apple/
-  zeaz-re-samsung/
-  zeaz-re-knox/
-  zeaz-re-detection/
-tests/
-AGENTS.md
-ZEAZ-INTRODUCTION.md
-IMPLEMENTATION-CHECKLIST.md
-ROADMAP.md
-CHANGELOG.md
-SECURITY.md
-```
+Presence of the script is not evidence provider-side controls are active. Effective settings must be read back successfully.
 
 ## Principles
 
@@ -189,21 +134,22 @@ SECURITY.md
 - least privilege
 - explicit authorization
 - static-first analysis
+- contained runtime execution
 - evidence-backed findings
-- disposable/contained runtime analysis
-- reproducible tooling and commands
+- reproducible tooling
+- immutable automation references where practical
 - small, reviewable changes
-- no weakening of security controls merely to make CI green
+- no weakening security controls merely to make CI green
 - explicit rollback/recovery
 - no production-readiness claim without environment-appropriate evidence
 
 ## Template limitations
 
-- Baseline CI proves only the checks that execute.
-- Generated applications require their own stack-specific tests/security/deployment evidence.
-- Reverse-engineering skills provide workflow guidance; they do not prove analysis completeness.
-- Platform behavior can vary by OS/device/model/build/region/management state.
-- Production readiness, security, deployment and release authorization remain separate evidence states.
+- Green baseline CI proves only the checks that ran.
+- Generated applications require stack-specific test/security/deployment evidence.
+- Starter packs and skills are guidance, not readiness evidence.
+- Platform behavior may vary by OS/device/model/build/region/management state.
+- Artifact signing/attestation and container scanning become applicable only when the generated project produces those artifact types.
 
 ## License
 

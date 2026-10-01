@@ -9,6 +9,9 @@ zRepro remains a reusable engineering foundation while adding evidence-driven re
 - [x] ZEAZ cross-agent execution framework
 - [x] Discovery-first skill/component/plugin catalog scaffold
 - [x] Safe rollout guidance
+- [x] Language adoption starter packs: Python, Node.js/TypeScript, Go, Rust
+- [x] Kubernetes/Helm adoption starter pack
+- [x] OpenSSF Scorecard advisory workflow
 
 ## Reverse-engineering framework
 - [x] Artifact triage and evidence contract
@@ -50,16 +53,11 @@ zRepro remains a reusable engineering foundation while adding evidence-driven re
 - [x] Bootstrap tests
 - [x] Repository administration verification helper
 
-The following are conditional on the generated repository or environment, not core zRepro completion gates:
-- production-capable per-stack adapters
-- end-to-end application fixtures for adopted stacks
+The following remain conditional on the generated repository or actual artifact set, not core zRepro completion gates:
+- production-capable per-stack implementation
+- end-to-end application fixtures for the adopted stack
 - artifact signing/attestation when distributable artifacts exist
 - container vulnerability scanning when container artifacts exist
-
-## Future optional modules
-- [ ] Language-specific starter packs
-- [ ] Kubernetes/Helm starter packs
-- [ ] OpenSSF Scorecard workflow
-- [ ] richer benchmark metrics once representative executable-safe scenarios exist
+- richer benchmark metrics when representative executable-safe scenarios exist
 
 Generated repositories should adopt only modules appropriate to authorization, stack, threat model and operating environment.
