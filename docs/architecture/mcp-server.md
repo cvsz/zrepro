@@ -18,13 +18,19 @@ Local mode deliberately has no HTTP authentication and is therefore restricted i
 
 ## Exposed tools
 
-- `server_status`
-- `list_capabilities`
-- `triage_artifact_metadata`
-- `validate_evidence_report`
-- `get_skill`
+The service registers seven read-only tools:
 
-This initial production surface is intentionally read-only. It does **not** expose shell execution, arbitrary file reads, credential extraction, dynamic execution, flashing, bypass workflows, or uncontrolled fuzzing.
+- `server_status` — report mode, tool inventory, and catalog/schema versions.
+- `list_capabilities` — list tools, routes, skills, and safety boundaries.
+- `list_skills` — list canonical skills, optionally filtered by domain or risk level.
+- `get_evidence_schema` — return the canonical evidence-report JSON Schema.
+- `triage_artifact_metadata` — validate metadata and choose a specialist route without reading artifact bytes.
+- `validate_evidence_report` — validate a bounded JSON report and return up to 50 errors.
+- `get_skill` — return one skill selected by exact catalog name.
+
+MCP clients receive parameter schemas from `tools/list`. `list_capabilities` provides the human-readable inventory. Restart the server and reconnect the client after tool registration changes to refresh the client's inventory.
+
+This initial production surface is intentionally read-only. It routes metadata and retrieves catalogued documents; it does not inspect artifact bytes or perform dynamic tracing. RVA data is diagnostic-only and is not invoked by the application. It does **not** expose shell execution, arbitrary file reads, credential extraction, dynamic execution, flashing, bypass workflows, or uncontrolled fuzzing.
 
 ## Run locally
 
