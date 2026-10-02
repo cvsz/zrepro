@@ -15,7 +15,7 @@ zRepro remains a reusable engineering foundation while adding evidence-driven re
 
 ## AI / MCP service
 - [x] Streamable HTTP MCP service using the current official Python SDK
-- [x] Read-only zRepro tool surface for status, routing, skill retrieval and evidence validation
+- [x] Read-only zRepro tool surface for status, capability and skill discovery, artifact routing, skill/schema retrieval and evidence validation
 - [x] Loopback-only unauthenticated local mode
 - [x] Production OAuth resource-server mode using RFC 7662 token introspection
 - [x] Required-scope and resource/audience validation

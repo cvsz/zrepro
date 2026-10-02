@@ -20,7 +20,7 @@ This repository is a **template and analysis framework**, not a deployable appli
 
 ### AI / MCP service
 - production-oriented Streamable HTTP MCP gateway under `services/mcp`
-- read-only tools for capability discovery, artifact routing, skill retrieval and evidence validation
+- read-only tools for service status, capability and skill discovery, artifact routing, skill/schema retrieval and evidence validation
 - loopback-only local mode
 - OAuth 2.1 resource-server mode with RFC 7662 token introspection for remote deployment
 - required-scope and resource/audience validation
