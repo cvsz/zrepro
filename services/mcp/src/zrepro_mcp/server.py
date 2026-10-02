@@ -118,7 +118,7 @@ def build_server(settings: Settings) -> MCPServer:
         ] = None,
         size_bytes: Annotated[
             int | None,
-            Field(description="Optional non-negative artifact size in bytes.", ge=0),
+            Field(description="Optional non-negative artifact size in bytes.", ge=0, strict=True),
         ] = None,
     ) -> dict[str, Any]:
         """Route validated artifact metadata to a specialist skill without reading the artifact."""
@@ -133,7 +133,9 @@ def build_server(settings: Settings) -> MCPServer:
     def validate_evidence_report(
         report: Annotated[
             dict[str, Any],
-            Field(description="JSON object to validate against the canonical evidence-report schema."),
+            Field(
+                description="JSON object to validate against the canonical evidence-report schema."
+            ),
         ],
     ) -> dict[str, Any]:
         """Validate a bounded JSON evidence report and return up to 50 schema errors."""
@@ -148,7 +150,7 @@ def build_server(settings: Settings) -> MCPServer:
                 min_length=1,
                 max_length=128,
             ),
-        ]
+        ],
     ) -> dict[str, Any]:
         """Return the Markdown content for one catalogued skill by exact name."""
         return core.skill(name)

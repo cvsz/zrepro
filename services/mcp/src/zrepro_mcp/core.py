@@ -19,6 +19,7 @@ ROUTES = {
     "document": "zeaz-re-document",
     "memory": "zeaz-re-memory",
     "protocol": "zeaz-re-protocol",
+    "fuzzing": "zeaz-re-fuzzing",
 }
 
 MAX_ARTIFACT_TYPE_LENGTH = 64
@@ -125,8 +126,12 @@ class ZReproCore:
         matches = [
             dict(skill)
             for skill in skills
-            if (normalized_domain is None or skill.get("domain", "").casefold() == normalized_domain)
-            and (normalized_risk is None or skill.get("risk_level", "").casefold() == normalized_risk)
+            if (
+                normalized_domain is None or skill.get("domain", "").casefold() == normalized_domain
+            )
+            and (
+                normalized_risk is None or skill.get("risk_level", "").casefold() == normalized_risk
+            )
         ]
         return {
             "catalog_schema_version": self.catalog.get("schema_version"),
@@ -156,7 +161,9 @@ class ZReproCore:
             or any(c not in "0123456789abcdefABCDEF" for c in sha256)
         ):
             raise ValueError("sha256 must be exactly 64 hexadecimal characters")
-        if size_bytes is not None and (not isinstance(size_bytes, int) or isinstance(size_bytes, bool)):
+        if size_bytes is not None and (
+            not isinstance(size_bytes, int) or isinstance(size_bytes, bool)
+        ):
             raise TypeError("size_bytes must be an integer")
         if size_bytes is not None and size_bytes < 0:
             raise ValueError("size_bytes must be a non-negative integer")
@@ -194,7 +201,9 @@ class ZReproCore:
 
         normalized_report = json.loads(canonical_json)
         collected_errors = list(
-            itertools.islice(self.validator.iter_errors(normalized_report), MAX_VALIDATION_ERRORS + 1)
+            itertools.islice(
+                self.validator.iter_errors(normalized_report), MAX_VALIDATION_ERRORS + 1
+            )
         )
         errors = sorted(
             collected_errors[:MAX_VALIDATION_ERRORS],
@@ -235,9 +244,7 @@ class ZReproCore:
         ):
             raise ValueError("invalid skill name")
         known_skills = {
-            item.get("name")
-            for item in self.catalog.get("skills", [])
-            if isinstance(item, dict)
+            item.get("name") for item in self.catalog.get("skills", []) if isinstance(item, dict)
         }
         if safe not in known_skills:
             raise ValueError("unknown skill")

@@ -3,14 +3,19 @@
 
 from __future__ import annotations
 
+import os
 import re
 import sys
 from pathlib import Path
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
+GENERATED_DIRECTORIES = {
+    ".git", ".venv", "venv", "node_modules", "build", "dist", ".cache", ".tmp", "tmp",
+}
 
 REQUIRED_PATHS = (
+    ".dockerignore",
     "README.md", "ABOUT.md", "AGENTS.md", "CLAUDE.md", "OPENCODE.md",
     "ZEAZ-INTRODUCTION.md", "CONTRIBUTING.md", "SECURITY.md",
     "CODE_OF_CONDUCT.md", "CHANGELOG.md", "ROADMAP.md",
@@ -63,9 +68,11 @@ def normalize_link_target(raw: str) -> str:
 
 def validate_markdown_links() -> list[str]:
     errors: list[str] = []
-    for md in sorted(ROOT.rglob("*.md")):
-        if ".git" in md.parts:
-            continue
+    documents: list[Path] = []
+    for directory, children, files in os.walk(ROOT):
+        children[:] = [name for name in children if name not in GENERATED_DIRECTORIES]
+        documents.extend(Path(directory) / name for name in files if name.endswith(".md"))
+    for md in sorted(documents):
         text = md.read_text(encoding="utf-8")
         for match in LINK_RE.finditer(text):
             raw = match.group(1).strip()

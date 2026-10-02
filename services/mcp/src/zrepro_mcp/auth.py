@@ -37,9 +37,9 @@ class IntrospectionTokenVerifier(TokenVerifier):
                     headers={"Accept": "application/json"},
                 )
             response.raise_for_status()
-            payload: dict[str, Any] = response.json()
+            payload: Any = response.json()
 
-            if payload.get("active") is not True:
+            if not isinstance(payload, dict) or payload.get("active") is not True:
                 return None
 
             exp_raw = payload.get("exp")
@@ -48,7 +48,7 @@ class IntrospectionTokenVerifier(TokenVerifier):
                 return None
 
             issuer_raw = payload.get("iss", "")
-            if issuer_raw is not None and not isinstance(issuer_raw, str):
+            if not isinstance(issuer_raw, str):
                 return None
             issuer = issuer_raw.rstrip("/")
             if issuer and issuer != self.issuer_url:
@@ -68,7 +68,9 @@ class IntrospectionTokenVerifier(TokenVerifier):
             scope_value = payload.get("scope", "")
             if isinstance(scope_value, str):
                 scopes = scope_value.split()
-            elif isinstance(scope_value, list) and all(isinstance(item, str) for item in scope_value):
+            elif isinstance(scope_value, list) and all(
+                isinstance(item, str) for item in scope_value
+            ):
                 scopes = scope_value
             else:
                 return None

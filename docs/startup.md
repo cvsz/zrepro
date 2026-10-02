@@ -22,6 +22,10 @@ python3 scripts/bootstrap.py --name my-service --owner my-org --codeowner my-org
 
 Review `git diff` and commit the generated identity marker only after confirming the resulting project metadata and ownership.
 
+Bootstrap updates only `README.md`, `ABOUT.md`, `SECURITY.md`, `.github/CODEOWNERS`, and the issue-template security link. It replaces exact template owner tokens and preserves other owners. The policy and issue-template links both point to the generated repository's private vulnerability reporting page; enable that feature during administration setup.
+
+Caught write errors restore the files already changed and leave no initialization marker. This is not a transaction across a process crash or persistent filesystem failure: start from a clean feature branch, inspect `git diff` and the marker after an interruption, and restore the intended template files before retrying.
+
 ## 2. Validate the inherited baseline
 
 ```bash

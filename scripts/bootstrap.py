@@ -16,6 +16,7 @@ MARKER = ".ztemplate-initialized.json"
 FILES = (
     "README.md",
     "ABOUT.md",
+    "SECURITY.md",
     ".github/CODEOWNERS",
     ".github/ISSUE_TEMPLATE/config.yml",
 )
@@ -60,9 +61,10 @@ def build_changes(root: Path, name: str, owner: str, codeowner: str, description
             raise ValueError(f"Unresolved placeholder in {source}")
         changes[target] = raw
     codeowners = safe_file(root, ".github/CODEOWNERS").read_text(encoding="utf-8")
-    if "@cvsz" not in codeowners:
+    owner_token = re.compile(r"(?<!\S)@cvsz(?=\s|$)")
+    if not owner_token.search(codeowners):
         raise ValueError("Unexpected CODEOWNERS template; manual review required")
-    changes[".github/CODEOWNERS"] = codeowners.replace("@cvsz", "@" + codeowner)
+    changes[".github/CODEOWNERS"] = owner_token.sub("@" + codeowner, codeowners)
     issue = safe_file(root, ".github/ISSUE_TEMPLATE/config.yml").read_text(encoding="utf-8")
     old_url = "https://github.com/cvsz/zrepro/security/advisories/new"
     if issue.count(old_url) != 1:
@@ -70,6 +72,12 @@ def build_changes(root: Path, name: str, owner: str, codeowner: str, description
     changes[".github/ISSUE_TEMPLATE/config.yml"] = issue.replace(
         old_url, f"https://github.com/{owner}/{name}/security/advisories/new"
     )
+    policy = safe_file(root, "SECURITY.md").read_text(encoding="utf-8")
+    if policy.count(old_url) != 1:
+        raise ValueError("Unexpected security policy URL; manual review required")
+    changes["SECURITY.md"] = policy.replace(
+        old_url, f"https://github.com/{owner}/{name}/security/advisories/new"
+    ).replace("**cvsz/zrepro**", f"**{owner}/{name}**")
     for target in FILES:
         safe_file(root, target)
     return changes
@@ -90,19 +98,31 @@ def initialize(root: Path, name: str, owner: str, codeowner: str, description: s
     modified = sorted(path for path, data in changes.items() if safe_file(root, path).read_text(encoding="utf-8") != data)
     if apply:
         # All inputs validated before any writes. Keep the branch clean so git can rollback.
-        for target in modified:
-            path = safe_file(root, target)
-            fd, temp_path = tempfile.mkstemp(prefix=".bootstrap-", dir=path.parent)
-            try:
-                with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as out:
-                    out.write(changes[target])
-                os.chmod(temp_path, path.stat().st_mode & 0o777)
-                os.replace(temp_path, path)
-            finally:
-                if os.path.exists(temp_path):
-                    os.unlink(temp_path)
-        marker.write_text(json.dumps(args, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        originals = {target: safe_file(root, target).read_bytes() for target in modified}
+        written: list[str] = []
+        try:
+            for target in modified:
+                atomic_write(safe_file(root, target), changes[target].encode("utf-8"))
+                written.append(target)
+            atomic_write(marker, (json.dumps(args, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
+        except OSError:
+            for target in reversed(written):
+                atomic_write(safe_file(root, target), originals[target])
+            raise
     return modified
+
+
+def atomic_write(path: Path, data: bytes) -> None:
+    fd, temp_path = tempfile.mkstemp(prefix=".bootstrap-", dir=path.parent)
+    try:
+        with os.fdopen(fd, "wb") as out:
+            out.write(data)
+        if path.exists():
+            os.chmod(temp_path, path.stat().st_mode & 0o777)
+        os.replace(temp_path, path)
+    finally:
+        if os.path.exists(temp_path):
+            os.unlink(temp_path)
 
 
 def main() -> int:

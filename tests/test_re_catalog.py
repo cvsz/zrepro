@@ -82,6 +82,21 @@ class ReverseEngineeringCatalogTest(unittest.TestCase):
     def test_machine_readable_catalog(self):
         self.assertEqual(validate_catalog_index(self.skills), [])
 
+    def test_catalog_rejects_invalid_shapes_and_domains(self):
+        valid = json.loads(validator.CATALOG_PATH.read_text())
+        malformed = [None, [], {"skills": None}, {"skills": [None]}, {"skills": [{"name": []}]}]
+        for domain in (None, "", "   ", 4):
+            altered = copy.deepcopy(valid)
+            altered["skills"][0]["domain"] = domain
+            malformed.append(altered)
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "catalog.json"
+            for index, data in enumerate(malformed):
+                with self.subTest(case=index):
+                    path.write_text(json.dumps(data))
+                    with patch.object(validator, "CATALOG_PATH", path):
+                        self.assertTrue(validate_catalog_index(self.skills))
+
     def test_reference_benchmarks(self):
         self.assertEqual(validate_benchmarks(self.skills), [])
 

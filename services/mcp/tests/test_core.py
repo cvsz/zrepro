@@ -19,6 +19,15 @@ def test_triage_routes_pe() -> None:
     assert result["evidence_state"] == "UNVERIFIED"
 
 
+def test_triage_matches_canonical_benchmark_routes() -> None:
+    scenarios = json.loads((ROOT / "benchmarks/re/scenarios.json").read_text())
+    core = ZReproCore(ROOT)
+    for scenario in scenarios["scenarios"]:
+        fixture = json.loads((ROOT / scenario["fixture"]).read_text())
+        result = core.triage_metadata(artifact_type=fixture["fixture_type"], name=scenario["id"])
+        assert result["route"] == scenario["expected_skill"], scenario["id"]
+
+
 def test_status_and_capabilities_expose_complete_tool_inventory() -> None:
     core = ZReproCore(ROOT)
     expected_names = [tool["name"] for tool in TOOL_CATALOG]

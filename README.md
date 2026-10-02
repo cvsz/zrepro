@@ -9,7 +9,7 @@ This repository is a **template and analysis framework**, not a deployable appli
 ### Engineering foundation
 - repository governance and CODEOWNERS
 - CI baseline validation
-- CodeQL, Dependency Review and Dependabot
+- CodeQL for Python and GitHub Actions, Dependency Review and Dependabot
 - advisory OpenSSF Scorecard workflow
 - release/rollback/recovery guidance
 - GitHub administration apply/verify tooling
@@ -129,6 +129,7 @@ See [OpenSSF Scorecard configuration](docs/security/openssf-scorecard.md). The u
 cd services/mcp
 python3 -m venv .venv
 . .venv/bin/activate
+python3 -m pip install --upgrade pip
 pip install -e '.[dev]'
 ZREPRO_ROOT=../.. zrepro-mcp
 ```
