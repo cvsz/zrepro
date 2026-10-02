@@ -38,6 +38,7 @@ This initial production surface is intentionally read-only. It routes metadata a
 cd services/mcp
 python3 -m venv .venv
 . .venv/bin/activate
+python3 -m pip install --upgrade pip
 pip install -e '.[dev]'
 ZREPRO_ROOT=../.. zrepro-mcp
 ```
@@ -64,3 +65,9 @@ The MCP Python SDK's Streamable HTTP transport is the deployment transport and i
 Repository code can verify fail-closed configuration and tool behavior. A deployment is not production-verified until live evidence confirms TLS, token rejection/acceptance, rate limiting, tenant/subject authorization policy, monitoring, rollback, and the target environment's incident/DR requirements.
 
 No generated project inherits a production-ready claim solely by using this service.
+
+## Container build context
+
+Build the service image from the repository root with `docker build -f services/mcp/Dockerfile .`. The root `.dockerignore` excludes local environment files (including examples), private-key filenames, Git metadata, and generated dependency directories. `.gitignore` alone does not protect image contexts. Keep credentials in runtime secret injection.
+
+The repository's synthetic Docker context test checks these exclusions without downloading a base image. It is skipped when Docker is unavailable; an executed passing result is required to claim that the build-context boundary was verified.

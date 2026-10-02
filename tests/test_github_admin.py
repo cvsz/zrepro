@@ -1,6 +1,8 @@
 """Repository administration helper tests. No GitHub API calls are made."""
 
 import io
+import json
+import subprocess
 import sys
 import unittest
 from contextlib import redirect_stderr
@@ -10,6 +12,16 @@ import scripts.github_admin as admin
 
 
 class GitHubAdminTest(unittest.TestCase):
+    def test_api_and_auth_target_github_com(self):
+        response = subprocess.CompletedProcess([], 0, stdout=json.dumps({"ok": True}), stderr="")
+        with patch.object(admin.subprocess, "run", return_value=response) as run:
+            self.assertEqual(admin.gh_api("GET", "user"), {"ok": True})
+            self.assertIn("--hostname", run.call_args.args[0])
+            self.assertIn("github.com", run.call_args.args[0])
+            admin.require_gh()
+            self.assertIn("--hostname", run.call_args.args[0])
+            self.assertIn("github.com", run.call_args.args[0])
+
     def test_new_protection_binds_required_checks_to_github_actions(self):
         payload = admin.protection_payload(None, actions_app_id=15368)
         status_checks = payload["required_status_checks"]

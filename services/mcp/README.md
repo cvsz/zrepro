@@ -7,6 +7,7 @@ This package exposes the safe, evidence-oriented zRepro surface to MCP clients.
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
+python3 -m pip install --upgrade pip
 pip install -e '.[dev]'
 ZREPRO_ROOT=../.. zrepro-mcp
 ```
@@ -49,3 +50,5 @@ The server currently registers these seven read-only tools. `tools/list` is the 
 | `get_skill` | Exact catalogued `name` | Return one canonical skill document. |
 
 Every tool advertises read-only and closed-world annotations. These are client hints; server-side validation and the fixed path allowlist enforce the actual boundary.
+
+`size_bytes` accepts only non-negative JSON integers; booleans, strings, and floating-point values are rejected rather than converted. The `fuzzing` metadata family routes to `zeaz-re-fuzzing`; this selects guidance and does not execute a fuzz campaign.

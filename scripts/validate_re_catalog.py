@@ -389,13 +389,25 @@ def validate_catalog_index(skills: dict[str, dict[str, object]]) -> list[str]:
         catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError) as exc:
         return [f"invalid or missing catalog index: {exc}"]
-    entries = catalog.get("skills", [])
+    if not isinstance(catalog, dict):
+        return ["catalog index must be an object"]
+    entries = catalog.get("skills")
+    if not isinstance(entries, list) or not entries:
+        return ["catalog index skills must be a non-empty list"]
+    if any(not isinstance(entry, dict) for entry in entries):
+        return ["catalog index skills must contain objects"]
     names = [entry.get("name") for entry in entries]
+    if any(not isinstance(name, str) or not name.strip() for name in names):
+        return ["catalog index skills must have non-empty string names"]
     if len(names) != len(set(names)):
         errors.append("catalog index contains duplicate skill names")
     if set(names) != set(skills):
         errors.append("catalog index skill set does not match canonical skills")
     by_name = {entry.get("name"): entry for entry in entries}
+    for entry in entries:
+        domain = entry.get("domain")
+        if not isinstance(domain, str) or not domain.strip():
+            errors.append(f"catalog index domain must be a non-empty string for {entry['name']}")
     for name, meta in skills.items():
         entry = by_name.get(name, {})
         if entry.get("version") != meta.get("version"):

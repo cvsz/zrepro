@@ -12,6 +12,8 @@ python3 scripts/github_admin.py --repo OWNER/REPO
 
 The default invocation is dry-run only.
 
+The helper explicitly targets GitHub.com for both authentication checks and API calls; `GH_HOST` does not redirect repository administration to another host. Enterprise-host administration requires an adapted, reviewed implementation.
+
 Apply and immediately verify:
 
 ```bash
@@ -47,6 +49,8 @@ The helper configures `main` to require:
 - administrator enforcement;
 - no force pushes;
 - no branch deletion.
+
+The existing `Analyze GitHub Actions` status context now scans both GitHub Actions and Python using `.github/codeql-config.yml`. Its name is retained so existing branch-protection requirements continue to apply.
 
 Before applying, it reads existing branch protection and merges these requirements into the current rules. Existing required checks, push restrictions, review restrictions, bypass allowances, and stronger rules are preserved. Unknown response fields or actor structures stop the update for manual review. Required baseline checks are bound to the GitHub Actions App.
 

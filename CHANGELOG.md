@@ -29,11 +29,21 @@ All notable changes to this template/framework are documented here.
 - Extended project profile guidance with starter-pack references.
 
 ### Fixed
+- Rejected malformed introspection responses without an unhandled verifier exception.
+- Matched MCP fuzzing metadata routing to the canonical reference scenario.
+- Required integer artifact sizes at the MCP boundary instead of silently coercing booleans, strings, or floats.
+- Updated generated security-policy routing, preserved distinct CODEOWNERS tokens, and restored bootstrap outputs after caught write failures.
+- Rejected invalid catalog shapes and domains, and excluded generated dependency documents from source-link validation.
+- Explicitly targeted GitHub.com in the repository administration helper.
 - Corrected generated README link validation.
 - Removed wording that could imply green CI alone establishes readiness.
 - Clarified that imports, strings, permissions, entitlements and decompiler output do not alone prove runtime behavior.
 
 ### Security
+- Excluded local credential files and generated dependencies from Docker build contexts, with an executable synthetic context regression test.
+- Extended the existing protected CodeQL check to Python and enabled the repository's security-extended query configuration.
+- Checked tracked environment-file variants and private-key filenames using null-delimited Git index output, with placeholder examples allowed.
+- Refreshed pip before CI dependency installation and documented the same local setup step.
 - MCP remote mode validates bearer tokens through external RFC 7662 introspection, required scopes and resource binding.
 - MCP local mode refuses non-loopback binding.
 - MCP tool surface intentionally excludes arbitrary command execution, credential extraction, bypass operations, uncontrolled fuzzing and dynamic execution.

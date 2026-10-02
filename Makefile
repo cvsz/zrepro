@@ -9,6 +9,7 @@ validate-template:
 	python3 scripts/validate_repo.py
 	python3 scripts/validate_re_catalog.py
 	python3 -m unittest discover -s tests -v
+	python3 scripts/check_secret_files.py
 
 validate-mcp:
 	python3 -m pip install -e 'services/mcp[dev]'

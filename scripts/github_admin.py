@@ -67,7 +67,8 @@ def repository_slug(value: str) -> str:
 
 
 def gh_api(method: str, endpoint: str, payload: dict[str, Any] | None = None) -> Any:
-    cmd = ["gh", "api", "--method", method, "-H", "Accept: application/vnd.github+json", endpoint]
+    cmd = ["gh", "api", "--hostname", "github.com", "--method", method,
+           "-H", "Accept: application/vnd.github+json", endpoint]
     if payload is not None:
         cmd += ["--input", "-"]
     proc = subprocess.run(
@@ -89,7 +90,7 @@ def gh_api(method: str, endpoint: str, payload: dict[str, Any] | None = None) ->
 
 def require_gh() -> None:
     proc = subprocess.run(
-        ["gh", "auth", "status"],
+        ["gh", "auth", "status", "--hostname", "github.com"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,
         text=True,

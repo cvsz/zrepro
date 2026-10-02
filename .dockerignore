@@ -1,0 +1,22 @@
+# Keep local credentials, VCS metadata, and generated dependencies out of every image context.
+**/.git
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_ed25519
+**/id_dsa
+**/id_ecdsa
+**/.venv
+**/venv
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/.cache
+**/.tmp
+**/tmp
+**/build
+**/dist
+**/*.log
