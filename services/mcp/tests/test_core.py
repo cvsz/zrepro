@@ -59,4 +59,3 @@ def test_sample_report_validates() -> None:
     report = json.loads((ROOT / "fixtures/re/reports/pe.report.json").read_text())
     result = core.validate_report(report)
     assert result["valid"] is True
-
