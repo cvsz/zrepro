@@ -98,9 +98,12 @@ class ZReproCore:
             "catalog": deepcopy(self.catalog),
             "safety": {
                 "arbitrary_command_execution": False,
+                "artifact_content_analysis": False,
                 "credential_extraction": False,
+                "dynamic_tracing": False,
                 "ownership_or_drm_bypass": False,
                 "third_party_production_fuzzing": False,
+                "rva": {"role": "diagnostic-only", "application_invoked": False},
                 "dynamic_execution": "not exposed by this service revision",
             },
         }

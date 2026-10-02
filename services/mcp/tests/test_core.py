@@ -32,6 +32,12 @@ def test_status_and_capabilities_expose_complete_tool_inventory() -> None:
     assert status["evidence_schema_version"] == "1.0"
     assert [tool["name"] for tool in capabilities["tools"]] == expected_names
     assert capabilities["safety"]["arbitrary_command_execution"] is False
+    assert capabilities["safety"]["artifact_content_analysis"] is False
+    assert capabilities["safety"]["dynamic_tracing"] is False
+    assert capabilities["safety"]["rva"] == {
+        "role": "diagnostic-only",
+        "application_invoked": False,
+    }
 
 
 def test_list_skills_supports_case_insensitive_filters() -> None:

@@ -30,7 +30,7 @@ The service registers seven read-only tools:
 
 MCP clients receive parameter schemas from `tools/list`. `list_capabilities` provides the human-readable inventory. Restart the server and reconnect the client after tool registration changes to refresh the client's inventory.
 
-This initial production surface is intentionally read-only. It does **not** expose shell execution, arbitrary file reads, credential extraction, dynamic execution, flashing, bypass workflows, or uncontrolled fuzzing.
+This initial production surface is intentionally read-only. It routes metadata and retrieves catalogued documents; it does not inspect artifact bytes or perform dynamic tracing. RVA data is diagnostic-only and is not invoked by the application. It does **not** expose shell execution, arbitrary file reads, credential extraction, dynamic execution, flashing, bypass workflows, or uncontrolled fuzzing.
 
 ## Run locally
 

@@ -32,7 +32,7 @@ The protected repository CI also runs the same tests.
 
 ## Current execution boundary
 
-The service is deliberately read-only. Dynamic analysis, fuzz campaigns, arbitrary file reads and shell execution are not exposed. Those require a future isolated worker/job system with explicit authorization, quotas, containment and evidence capture.
+The service is deliberately read-only. It discovers catalog and skill metadata, retrieves catalogued skill/schema documents, routes artifact metadata, and validates evidence reports. It does not analyze artifact file contents or perform dynamic tracing. RVA data is diagnostic-only and is not invoked by the application. Dynamic analysis, fuzz campaigns, arbitrary file reads and shell execution are not exposed; those require a future isolated worker/job system with explicit authorization, quotas, containment and evidence capture.
 
 ## Available tools
 
